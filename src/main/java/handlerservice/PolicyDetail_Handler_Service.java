@@ -6,8 +6,8 @@ import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Component;
 
-import commons.Commons;
-import commons.Httpurl_Connection;
+import common.Commons;
+import common.Httpurl_Connection;
 
 
 
