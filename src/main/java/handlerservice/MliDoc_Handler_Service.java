@@ -8,8 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import commons.Commons;
-import commons.Httpurl_Connection;
+import common.Commons;
+import common.Httpurl_Connection;
 
 
 
