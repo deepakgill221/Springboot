@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="true"
+	monitoring="autodetect" dynamicConfig="true">
+
+	     <diskStore path="/mount_log/maxservice" />
+	      <!-- <diskStore path="D:\\LOGS" /> -->
+	
+	<cache name="chatbot" maxEntriesLocalHeap="150000"
+		maxEntriesLocalDisk="10000" eternal="false" diskSpoolBufferSizeMB="10"
+		timeToIdleSeconds="100000" timeToLiveSeconds="100000"
+		memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		
+		<persistence strategy="localTempSwap" />
+	
+	</cache>
+</ehcache>
