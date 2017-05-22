@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import commons.Httpurl_Connection;
+import common.Httpurl_Connection;
 
 
 
