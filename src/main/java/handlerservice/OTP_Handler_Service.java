@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cacheservice.OTPService;
-import commons.Commons;
+import common.Commons;
 
 
 @Component
