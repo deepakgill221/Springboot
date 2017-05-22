@@ -1,4 +1,4 @@
-package hello;
+package config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,8 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 @EnableCaching
 @SpringBootApplication
-@ComponentScan({"service","hello"})
-public class HelloWorldConfiguration {
+@ComponentScan({"handlerservice","config","commons","cacheservice"})
+public class ApplicationConfiguration {
 
 	public static void main(String[] args) {
 		SpringApplication.run(HelloWorldConfiguration.class, args);
