@@ -1,4 +1,4 @@
-package commons;
+package common;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,7 +12,7 @@ import javax.net.ssl.HttpsURLConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.qc.api.service.impl.OTPServiceimpl;
+import cacheservice.OTPServiceimpl;
 
 public class Httpurl_Connection 
 {
