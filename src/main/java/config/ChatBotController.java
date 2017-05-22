@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import commons.Commons;
+import common.Commons;
 import handlerservice.MliDoc_Handler_Service;
 import handlerservice.OTP_Handler_Service;
 import handlerservice.PolicyDetail_Handler_Service;
