@@ -3,9 +3,7 @@ package config;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-
 import javax.servlet.http.HttpSession;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
@@ -16,15 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import common.Commons;
 import handlerservice.MliDoc_Handler_Service;
 import handlerservice.OTP_Handler_Service;
 import handlerservice.PolicyDetail_Handler_Service;
 import handlerservice.PolicyInfo_Handler_Service;
-
-
-
 
 @Controller
 @RequestMapping("/webhook")
@@ -56,9 +50,8 @@ public class ChatBotController {
 			String policy_Number = object.getJSONObject("result").getJSONObject("parameters").getJSONObject("PolicyNumber").get("Given-PolicyNumber")+"";
 			logger.info("Request PolicyNo :- "+policy_Number );
 
-			switch(action)
+ 			switch(action)
 			{
-
 			case "OTP.NotAvailable":
 			{
 				if(responsecache_onsessionId.containsKey(sessionId))
