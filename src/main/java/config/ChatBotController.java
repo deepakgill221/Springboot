@@ -112,7 +112,7 @@ public class ChatBotController {
 						}
 						if (!"".equalsIgnoreCase(otp_session) &&  otp_session != null)
 						{
-							policy_Number="123456";
+							//policy_Number="123456";
 							if (otp_session.equals(policy_Number)) {
 								speech = "Hi " + Commons.toCamelCase(proposerName)
 								+ resProp.getString("welcomeUser");
