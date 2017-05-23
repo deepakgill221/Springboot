@@ -247,7 +247,7 @@ public class ChatBotController {
 						System.out.println("I am in Surrender Value");
 						if (data.get("CSV") == null) {
 							System.out.println("CSV is null is policy data");
-							speech = policyDetail_Handler_Service.getPolicyDetails(data, cachePolicyNo).get("Message");
+							speech = policyDetail_Handler_Service.getPolicyDetails(data, cachePolicyNo).get("Message").toString();
 							System.out.println("Speech is " + speech);
 						}
 						else{
