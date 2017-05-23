@@ -99,7 +99,7 @@ public class ChatBotController {
 							logger.info("A new policy number entered by the customer " + policy_Number);
 						}
 					}
-					if (cachePolicyNo!= null && (cachevalidOTP != null && !cachevalidOTP.equalsIgnoreCase("")))
+					if (!"".equalsIgnoreCase(cachePolicyNo) && cachePolicyNo!= null && cachevalidOTP != null && !cachevalidOTP.equalsIgnoreCase(""))
 					{
 						logger.info("Inside 2 Check :: PolicyNo & OTP Validation From ehcache");
 						speech = "OTP Verification is completed for Policy Number " + cachePolicyNo
