@@ -23,10 +23,12 @@ import handlerservice.PolicyInfo_Handler_Service;
 @Controller
 @RequestMapping("/webhook")
 public class ChatBotController {
-
+	
+        private static Logger logger = LogManager.getLogger(ChatBotController.class);
 	public static ResourceBundle resProp = ResourceBundle.getBundle("errorMessages");
 	public static Map<String, Object> serviceResp = new HashMap<String,Object>();
 	public static Map<String, Map> responsecache_onsessionId = new ConcurrentHashMap<String, Map>();
+	
 	@Autowired
 	OTP_Handler_Service oTP_Handler_Service; 
 	@Autowired
