@@ -47,10 +47,16 @@ public class ChatBotController {
 			System.out.println(obj);
 			JSONObject object = new JSONObject(obj.toString());
 			String sessionId = object.get("sessionId")+"";
+			String policy_Number="";
 			logger.info("Request Session Id :- "+ sessionId);
 			String action = object.getJSONObject("result").get("action")+"";
 			logger.info("Request Action :- "+ action);
-			String policy_Number = object.getJSONObject("result").getJSONObject("parameters").getJSONObject("PolicyNumber").get("Given-PolicyNumber")+"";
+			try{
+				policy_Number = object.getJSONObject("result").getJSONObject("parameters").getJSONObject("PolicyNumber").get("Given-PolicyNumber")+"";
+			}catch(Exception e)
+			{
+				policy_Number="";
+			}
 			logger.info("Request PolicyNo :- "+policy_Number );
 
  			switch(action)
