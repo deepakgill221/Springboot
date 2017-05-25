@@ -68,17 +68,16 @@ public class ChatBotController {
 					String cachePolicyNo=responsecache_onsessionId.get(sessionId).get("PolicyNo")+"";
 					String cacheOTP=responsecache_onsessionId.get(sessionId).get("policyotp")+"";
 					String proposerName=responsecache_onsessionId.get(sessionId).get("proposerName")+"";
-					Map<String, Object> serviceResp = responsecache_onsessionId.get(sessionId);
-					serviceResp.remove("cachevalidOTP");
-					responsecache_onsessionId.put(sessionId, serviceResp);
-					Map<String, String> orignalData = oTP_Handler_Service.getPolicyOtp(policy_Number, sessionId , 0);
-					speech = orignalData.get("Message");
+//					Map<String, Object> serviceResp = responsecache_onsessionId.get(sessionId);
+//					serviceResp.remove("cachevalidOTP");
+//					responsecache_onsessionId.put(sessionId, serviceResp);
+					Map<String, String> orignalData = oTP_Handler_Service.getPolicyOtp(policy_Number, sessionId , 1);
 					if (orignalData.get("policyotp") != null) {
 						orignalData.put(cacheOTP, orignalData.get("policyotp"));
 						orignalData.put(proposerName, orignalData.get("proposerName"));
 						orignalData.put(cachePolicyNo, cachePolicyNo);
 						responsecache_onsessionId.put(sessionId, orignalData);
-						System.out.println("OTP is **** " + serviceResp.get("policyotp"));
+						speech = orignalData.get("Message");
 					}
 				}
 				else{
@@ -101,8 +100,15 @@ public class ChatBotController {
 						logger.info("Inside :: PolicyNumberInSession Check !=null");
 						if (!(policy_Number.equals(cachePolicyNo)))
 						{
-							System.out.println("A new policy number entered by the customer " + policy_Number);
-							logger.info("A new policy number entered by the customer " + policy_Number);
+							System.out.println("A new policy number entered by the customer " + policy_Number+"First clear the Cach "
+									+ "then Go to api Call");
+							responsecache_onsessionId.clear();
+							Map<String, String> orignalData = oTP_Handler_Service.getPolicyOtp(policy_Number, sessionId , 0);
+							responsecache_onsessionId.put(sessionId, orignalData);
+							logger.info("END :: Request For Re-Generate PolicyOTP :- "+serviceResp);
+							speech = orignalData.get("Message");
+							WebhookResponse responseObj = new WebhookResponse(speech, speech);
+							return responseObj;
 						}
 					}
 					if (!"".equalsIgnoreCase(cachePolicyNo) && cachePolicyNo!= null && cachevalidOTP != null && !cachevalidOTP.equalsIgnoreCase(""))
