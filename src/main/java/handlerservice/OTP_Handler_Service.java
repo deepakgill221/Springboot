@@ -70,6 +70,8 @@ public class OTP_Handler_Service
 					else
 					{
 						otpDescMap.put("Message", resProp.getString("getOtpRegenSuccessfully"));
+						otpDescMap.put("PolicyNo", policyNo);
+						otpDescMap.put("ValidOTP", "");
 					}
 				}
 				else if (soaStatusCode != null && !soaStatusCode.equalsIgnoreCase("") && soaStatusCode.equalsIgnoreCase("999")) 
