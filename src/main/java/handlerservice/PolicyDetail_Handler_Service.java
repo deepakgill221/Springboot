@@ -25,8 +25,7 @@ public class PolicyDetail_Handler_Service
 		String mir_dv_eff_dt = "";
 		String mir_dv_pol_csv_amt = "";
 		try {
-			if(!result.equalsIgnoreCase("InvalidResponse"))
-			{
+			
 				Map resultData = Commons.getGsonData(result);
 				mir_dv_pua_csh_valu = ((Map) ((Map) ((Map) resultData.get("response")).get("responseData"))
 						.get("cashSurrenderValue")).get("MIR-DV-PUA-CSH-VALU").toString();
@@ -59,11 +58,6 @@ public class PolicyDetail_Handler_Service
 					returnMap.put("mir_dv_pua_csh_valu", mir_dv_pua_csh_valu);
 					System.out.println("Message added");
 				}
-			}
-			else
-			{
-				returnMap.put("Message", "Unable to fetch the data form Soa Services response code ! = 200");
-			}
 		} catch (Exception ex) {
 			System.out.println("Exception Occured"+ ex);
 		}
