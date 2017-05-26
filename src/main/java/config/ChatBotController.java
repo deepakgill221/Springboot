@@ -44,12 +44,13 @@ public class ChatBotController {
 	public @ResponseBody WebhookResponse webhook(@RequestBody String obj, Model model, HttpSession httpSession) {
 		String speech = null;
 		try {
-			System.out.println(obj);
+			System.out.println("Controller : Webhook : START");
+
 			JSONObject object = new JSONObject(obj.toString());
 			String sessionId = object.get("sessionId")+"";
-			String policy_Number="";
 			logger.info("Request Session Id :- "+ sessionId);
 			String action = object.getJSONObject("result").get("action")+"";
+			String policy_Number="";
 			logger.info("Request Action :- "+ action);
 			try{
 				policy_Number = object.getJSONObject("result").getJSONObject("parameters").getJSONObject("PolicyNumber").get("Given-PolicyNumber")+"";
@@ -59,7 +60,7 @@ public class ChatBotController {
 			}
 			logger.info("Request PolicyNo :- "+policy_Number );
 
- 			switch(action)
+			switch(action)
 			{
 			case "OTP.NotAvailable":
 			{
@@ -68,9 +69,9 @@ public class ChatBotController {
 					String cachePolicyNo=responsecache_onsessionId.get(sessionId).get("PolicyNo")+"";
 					String cacheOTP=responsecache_onsessionId.get(sessionId).get("policyotp")+"";
 					String proposerName=responsecache_onsessionId.get(sessionId).get("proposerName")+"";
-//					Map<String, Object> serviceResp = responsecache_onsessionId.get(sessionId);
-//					serviceResp.remove("cachevalidOTP");
-//					responsecache_onsessionId.put(sessionId, serviceResp);
+					//	Map<String, Object> serviceResp = responsecache_onsessionId.get(sessionId);
+					//	serviceResp.remove("cachevalidOTP");
+					//	responsecache_onsessionId.put(sessionId, serviceResp);
 					Map<String, String> orignalData = oTP_Handler_Service.getPolicyOtp(policy_Number, sessionId , 1);
 					if (orignalData.get("policyotp") != null) {
 						orignalData.put(cacheOTP, orignalData.get("policyotp"));
@@ -94,10 +95,9 @@ public class ChatBotController {
 					String cacheOTP=responsecache_onsessionId.get(sessionId).get("policyotp")+"";
 					String proposerName=responsecache_onsessionId.get(sessionId).get("proposerName")+"";
 
-					logger.info("CameInsdie Action :: PolicyNumberValidation");
-					if (cachePolicyNo!= null && (cachevalidOTP != null && !cachevalidOTP.equalsIgnoreCase("")))
+					logger.info("Inside :: PolicyNumberInSession Check !=null");
+					if (cachePolicyNo!= null && (cachevalidOTP != null && !"".equalsIgnoreCase(cachevalidOTP)))
 					{
-						logger.info("Inside :: PolicyNumberInSession Check !=null");
 						if (!(policy_Number.equals(cachePolicyNo)))
 						{
 							System.out.println("A new policy number entered by the customer " + policy_Number+"First clear the Cach "
@@ -127,7 +127,6 @@ public class ChatBotController {
 						}
 						if (!"".equalsIgnoreCase(otp_session) &&  otp_session != null)
 						{
-							//policy_Number="123456";
 							if (otp_session.equals(policy_Number)) {
 								speech = "Hi " + Commons.toCamelCase(proposerName)
 								+ resProp.getString("welcomeUser");
