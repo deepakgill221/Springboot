@@ -27,9 +27,12 @@ public class PolicyInfo_Handler_Service
 			String PolicyInfo = "PolicyInfo";
 			String result = connection.httpConnection_response(policyNo, PolicyInfo);
 			logger.info("PolicyInfo API Response From Backend ::  "+ result.toString());
-			if(!result.equalsIgnoreCase("InvalidResponse"))
+			
+			Map resultData = Commons.getGsonData(result);
+			String soaStatusCode = ((Map) ((Map) resultData.get("response")).get("responseData"))
+					.get("soaStatusCode").toString();
+			if (soaStatusCode != null && !"".equalsIgnoreCase(soaStatusCode) && soaStatusCode.equalsIgnoreCase("200"))
 			{
-				Map resultData = Commons.getGsonData(result.toString());
 				String policyBasePlanIdDesc = ((Map) ((Map) ((Map) resultData.get("response")).get("responseData"))
 						.get("BasicDetails")).get("policyBasePlanIdDesc").toString();
 				String ctpAmt = ((Map) ((Map) ((Map) resultData.get("response")).get("responseData"))
@@ -147,7 +150,7 @@ public class PolicyInfo_Handler_Service
 			} else {
 
 				Map<String, String> fvMap = new HashMap();
-				fvMap.put("Message", "Unable to fetch the data form Soa Services response code ! = 200");
+				fvMap.put("Message", "Getting error : ! 200  while calling backend service");
 				returnMap.put("ErrorMessage", fvMap);
 			}
 		}
