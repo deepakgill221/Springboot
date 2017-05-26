@@ -15,7 +15,7 @@ import common.Httpurl_Connection;
 public class OTPServiceimpl implements OTPService
 {
 	private static Logger logger = LogManager.getLogger(OTPServiceimpl.class);
-	@Cacheable(value="chatbot", key="#sessionId")
+	@Cacheable(value="chatbot", key="#sessionId.concat('-').concat(#policyNo)", unless="#result == null")
 	public String OTPCallCashing(String policyNo,String sessionId, String identifier) throws SQLException , Exception
 	{
 		logger.info("CameInside Method :: OTPCallCashing ");
