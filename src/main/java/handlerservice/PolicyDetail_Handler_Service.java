@@ -1,15 +1,10 @@
 package handlerservice;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-
 import org.springframework.stereotype.Component;
-
 import common.Commons;
 import common.Httpurl_Connection;
-
-
 
 @Component
 public class PolicyDetail_Handler_Service 
