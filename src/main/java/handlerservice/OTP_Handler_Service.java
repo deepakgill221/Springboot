@@ -18,7 +18,7 @@ public class OTP_Handler_Service
 {
 	private static Logger logger = LogManager.getLogger(OTP_Handler_Service.class);
 	public static ResourceBundle resProp = ResourceBundle.getBundle("errorMessages");
-
+	
 	@Autowired
 	OTPService otpService;
 
@@ -41,14 +41,31 @@ public class OTP_Handler_Service
 		String proposerName = "";
 		try
 		{
-			if(!result.equalsIgnoreCase("InvalidResponse"))
+			Map resultData = Commons.getGsonData(result);
+			String soaStatusCode = ((Map) ((Map) resultData.get("response")).get("responseData"))
+					.get("soaStatusCode").toString();
+			if (soaStatusCode != null && !soaStatusCode.equalsIgnoreCase("") && soaStatusCode.equalsIgnoreCase("999"))
+			{
+				String soaMessage = ((Map) ((Map) resultData.get("response")).get("responseData")).get("soaMessage")
+						.toString();
+				if ("Unable to fetch client Id from Policy Info backend service.".equals(soaMessage)) {
+					otpDescMap.put("Message",
+							resProp.getString("PolicyNumberNotFound") + " number " + policyNo + " in our records" + resProp.getString("PolicyNumberNotFound1"));
+				} else if ("Unable to fetch Mobile number from Client Info backend service.".equals(soaMessage)) {
+					otpDescMap.put("Message", resProp.getString("MobileNumberRegardingPolicy"));
+				}
+				// Set message if required
+				System.out.println("soaStatusCode is : " + soaStatusCode);
+
+			}
+			if (soaStatusCode != null && !soaStatusCode.equalsIgnoreCase("") && soaStatusCode.equalsIgnoreCase("200"))
 			{
 				logger.info("CameInside :: ! InvalidResponse");
-				Map resultData = Commons.getGsonData(result);
+				Map resultData_2 = Commons.getGsonData(result);
 				logger.info("ResultData :- "+resultData.toString());
-				String soaStatusCode = ((Map) ((Map) resultData.get("response")).get("responseData"))
+				String soaStatusCode_2 = ((Map) ((Map) resultData_2.get("response")).get("responseData"))
 						.get("soaStatusCode").toString();
-				if (soaStatusCode != null && !soaStatusCode.equalsIgnoreCase("") && soaStatusCode.equalsIgnoreCase("200")) 
+				if (soaStatusCode_2 != null && !soaStatusCode_2.equalsIgnoreCase("") && soaStatusCode_2.equalsIgnoreCase("200")) 
 				{
 					try {
 						policyOtp = ((Map) ((Map) resultData.get("response")).get("responseData")).get("otp")
@@ -74,27 +91,9 @@ public class OTP_Handler_Service
 						otpDescMap.put("ValidOTP", "");
 					}
 				}
-				else if (soaStatusCode != null && !soaStatusCode.equalsIgnoreCase("") && soaStatusCode.equalsIgnoreCase("999")) 
-				{
-					String soaMessage = ((Map) ((Map) resultData.get("response")).get("responseData")).get("soaMessage")
-							.toString();
-					if ("Unable to fetch client Id from Policy Info backend service.".equals(soaMessage)) {
-						otpDescMap.put("Message",
-								resProp.getString("PolicyNumberNotFound") + policyNo + " " + resProp.getString("PolicyNumberNotFound1"));
-					} else if ("Unable to fetch Mobile number from Client Info backend service.".equals(soaMessage)) {
-						otpDescMap.put("Message", resProp.getString("MobileNumberRegardingPolicy"));
-					}
-					// Set message if required
-					System.out.println("soaStatusCode is : " + soaStatusCode);
-				} 
-				else 
-				{
-					System.out.println("soaStatusCode is : " + soaStatusCode);
-				}
 			}
-
 			else {
-				otpDescMap.put("Message", "Unable to fetch the data form Soa Services response code ! = 200");
+				otpDescMap.put("Message", resProp.getString("GenericBackendErrorMessage"));
 			}
 		} catch (Exception e) {
 			System.out.println("We are in exception while calling API : " + e);
