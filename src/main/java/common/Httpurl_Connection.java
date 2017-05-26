@@ -156,7 +156,7 @@ public class Httpurl_Connection
 				}
 				conn.disconnect();
 				br.close();
-				Map resultData = Commons.getGsonData(result.toString());
+				Map<String, Object> resultData = Commons.getGsonData(result.toString());
 				String soaStatusCode = ((Map) ((Map) resultData.get("response")).get("responseData"))
 						.get("soaStatusCode").toString();
 				if (soaStatusCode != null && !soaStatusCode.equalsIgnoreCase("") && soaStatusCode.equalsIgnoreCase("999")) 
