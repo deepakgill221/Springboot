@@ -68,8 +68,8 @@ public class Httpurl_Connection
 			logger.info("Method Identifier :-  " +methodidentifier );
 			soaMsgVersion=res.getString("soaMsgVersion");
 			soaAppID=res.getString("soaAppID");
-			soaUserID=res.getString("soaUserID");
-			soaUserPswd=res.getString("soaUserPswd");
+			soaUserID=res.getString("soaUserIDProd");
+			soaUserPswd=res.getString("soaUserPasswordProd");
 			applicationurl=res.getString("Soa_url_mlidocservice");
 		}
 		try {
