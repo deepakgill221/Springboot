@@ -25,18 +25,24 @@ public class Httpurl_Connection
 		ResourceBundle res = ResourceBundle.getBundle("errorMessages");
 		String soaCorrelationId = "CorelationId"+System.currentTimeMillis();
 		HttpURLConnection conn = null;
-		String soaMsgVersion=""; String soaAppID=""; String soaUserID=""; String soaUserPswd="";
-		String applicationurl=""; String docID = "PRM23";	String SendTo = "C"; String docDispatchMode = "E";
-		String fromDate = "04/01/2016";	String toDate = "03/31/2017";
+		String soaMsgVersion=""; 
+		String soaAppID=""; 
+		String soaUserID=""; 
+		String soaUserPswd="";
+		String applicationurl=""; 
+		String docID = "PRM23";	
+		String SendTo = "C"; 
+		String docDispatchMode = "E";
+		String fromDate = "04/01/2016";	
+		String toDate = "03/31/2017";
 
 		if("OTP".equalsIgnoreCase(methodidentifier))
 		{
 			logger.info("Method Identifier :-  " +methodidentifier );
-			logger.info("");
 			soaMsgVersion=res.getString("soaMsgVersion");
-			soaAppID=res.getString("soaAppID");
-			soaUserID=res.getString("soaUserID");
-			soaUserPswd=res.getString("soaUserPswd");
+			soaAppID=res.getString("otpsoaAppID");
+			soaUserID=res.getString("otpsoaUserID");
+			soaUserPswd=res.getString("otpsoaUserPswd");
 			applicationurl=res.getString("Soa_url_OTP");
 
 		}else if("PolicyInfo".equalsIgnoreCase(methodidentifier))
@@ -121,6 +127,7 @@ public class Httpurl_Connection
 				logger.info("Request Data For Hitting API : - "+requestdata.toString());
 
 			}
+			System.out.println("External API Call : START");
 			OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
 			writer.write(requestdata.toString());
 			writer.flush();
@@ -131,16 +138,36 @@ public class Httpurl_Connection
 
 			int apiResponseCode = conn.getResponseCode();
 			logger.info("API Response Code : - " + apiResponseCode);
-			if (apiResponseCode == 200) {
+			if (apiResponseCode == 200) 
+			{
 				BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 				while ((output = br.readLine()) != null) {
 					result.append(output);
 				}
 				conn.disconnect();
 				br.close();
+				System.out.println("External API Call : END");
 			}
-			else{
-				return "InvalidResponse";
+			else
+			{
+				BufferedReader br = new BufferedReader(new InputStreamReader((conn.getErrorStream())));
+				while ((output = br.readLine()) != null) {
+					result.append(output);
+				}
+				conn.disconnect();
+				br.close();
+				Map resultData = Commons.getGsonData(result.toString());
+				String soaStatusCode = ((Map) ((Map) resultData.get("response")).get("responseData"))
+						.get("soaStatusCode").toString();
+				if (soaStatusCode != null && !soaStatusCode.equalsIgnoreCase("") && soaStatusCode.equalsIgnoreCase("999")) 
+				{
+					return result.toString();
+				}
+				else
+				{
+					return  res.getString("GenericBackendErrorMessage");
+				}
+				
 			}
 		}
 		catch(Exception e)
