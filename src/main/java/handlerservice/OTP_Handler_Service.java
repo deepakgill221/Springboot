@@ -27,10 +27,11 @@ public class OTP_Handler_Service
 		logger.info("CameInside getPolicyOtp :: Method :: START");
 		String result="";
 		String identity="OTP";
+	        String finaldate="";
 		try
 		{
 			logger.info("START :: Calling OTPCallCashing Method");
-			result = otpService.OTPCallCashing(policyNo, sessionId, identity);
+			result = otpService.OTPCallCashing(policyNo, sessionId, identity, finaldate);
 			logger.info("END :: OTPCallCashing Method :: Response :: "+ result);
 		}catch(Exception e)
 		{
