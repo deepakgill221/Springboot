@@ -1,4 +1,4 @@
-package handlerservice
+package handlerservice;
 
 import java.util.HashMap;
 import java.util.List;
