@@ -1,13 +1,16 @@
 package config;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
-import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import config.WebhookResponse;
-import common.Commons;
+
+import handlerservice.MaturityDate;
 import handlerservice.MliDoc_Handler_Service;
 import handlerservice.OTP_Handler_Service;
 import handlerservice.PolicyDetail_Handler_Service;
 import handlerservice.PolicyInfo_Handler_Service;
+import common.Commons;
 
 @Controller
 @RequestMapping("/webhook")
@@ -39,6 +44,8 @@ public class ChatBotController {
 	PolicyInfo_Handler_Service policyInfo_Handler_Service; 
 	@Autowired
 	MliDoc_Handler_Service mliDoc_Handler_Service;
+	@Autowired
+	MaturityDate maturityDate;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody WebhookResponse webhook(@RequestBody String obj, Model model, HttpSession httpSession) {
@@ -51,6 +58,7 @@ public class ChatBotController {
 			logger.info("Request Session Id :- "+ sessionId);
 			String action = object.getJSONObject("result").get("action")+"";
 			String policy_Number="";
+			ObjectMapper mapperObj = new ObjectMapper();
 			logger.info("Request Action :- "+ action);
 			try{
 				policy_Number = object.getJSONObject("result").getJSONObject("parameters").getJSONObject("PolicyNumber").get("Given-PolicyNumber")+"";
@@ -128,15 +136,26 @@ public class ChatBotController {
 						if (!"".equalsIgnoreCase(otp_session) &&  otp_session != null)
 						{
 							if (otp_session.equals(policy_Number)) {
-								speech = "Hi " + Commons.toCamelCase(proposerName)
-								+ resProp.getString("welcomeUser");
+								String policyBasePlanIdDesc="";
+								String lastPremPmtDt="";
 								Map data = policyInfo_Handler_Service.getPolicyInfo(cachePolicyNo);
+								try{
+								String Json = mapperObj.writeValueAsString(data);
+								JSONObject jsonObject = new JSONObject(Json.toString());
+								policyBasePlanIdDesc=jsonObject.getJSONObject("PolicyData").get("policyBasePlanIdDesc")+"";
+								lastPremPmtDt=jsonObject.getJSONObject("PolicyData").get("lastPremPmtDt")+"";
+								}catch(IOException e){logger.info(e);}
 								System.out.println("data----------" + data.toString());
 								Map<String, Object> serviceResp = responsecache_onsessionId.get(sessionId);
+         							Map<String, String> maturityData = maturityDate.getMaturityDate(cachePolicyNo);
+								serviceResp.put("OverAllMaturityCashData", maturityData);
 								serviceResp.put("ValidOTP", cachePolicyNo);
+                                                                serviceResp.put("lastPremPmtDt", lastPremPmtDt);
 								serviceResp.put("PolData", data);
 								serviceResp.remove("policyotp");
 								responsecache_onsessionId.put(sessionId, serviceResp);
+                                                                speech = "Hi " + Commons.toCamelCase(proposerName)
+								+ resProp.getString("welcomeUser")+policyBasePlanIdDesc+" "+resProp.getString("welcomeUser1");
 							} else {
 								speech = resProp.getString("OTPnotmatch");
 							}
@@ -177,8 +196,7 @@ public class ChatBotController {
 					{
 						String otp_session = "";
 						String OTP_request=object.getJSONObject("result").getJSONObject("parameters").getJSONObject("OTP").get("Provided-OTP")+"";
-						//						String requiredadata = object.getJSONObject("result").getJSONArray("contexts").getJSONObject(0)
-						//								.getJSONObject("parameters").getJSONObject("PolicyNumber").get("Given-PolicyNumber.original") + "";
+					
 						otp_session = cacheOTP;
 						if (!"".equalsIgnoreCase(otp_session) && otp_session != null) {
 							if (otp_session.equals(OTP_request)) 
@@ -277,14 +295,16 @@ public class ChatBotController {
 				{
 					String cachePolicyNo=responsecache_onsessionId.get(sessionId).get("PolicyNo")+"";
 					String cachevalidOTP=responsecache_onsessionId.get(sessionId).get("ValidOTP")+"";
+                                        String cashlastPremPmtDt=responsecache_onsessionId.get(sessionId).get("lastPremPmtDt")+"";
 					Map data =(Map)responsecache_onsessionId.get(sessionId).get("PolData");
 
-					if ("".equalsIgnoreCase(cachePolicyNo)|| cachePolicyNo == null) {
+					if ("".equalsIgnoreCase(cachePolicyNo)|| cachePolicyNo == null) 
+					{
 						speech = resProp.getString("validPolicyMessage");
 					} else if ("".equalsIgnoreCase(cachevalidOTP) || cachevalidOTP == null) {
 						speech = resProp.getString("validateOTP").concat(cachePolicyNo);
 					} else {
-						speech = mliDoc_Handler_Service.getMliDocService(cachePolicyNo).get("Message");
+						speech = mliDoc_Handler_Service.getMliDocService(cachePolicyNo, cashlastPremPmtDt).get("Message");
 					}
 				}
 				else{
@@ -323,6 +343,19 @@ public class ChatBotController {
 					}
 				} 
 				else{
+					speech = "Thank you for contacting Max Life. Have a great day!";
+				}
+			}
+			break;
+      			case "Input.Maturity":
+			{
+				if(responsecache_onsessionId.containsKey(sessionId))
+				{
+					String cashdata=((Map)responsecache_onsessionId.get(sessionId).get("OverAllMaturityCashData")).get("maturityMessage")+"";
+					speech = cashdata;
+				}
+				else
+				{
 					speech = "Thank you for contacting Max Life. Have a great day!";
 				}
 			}
