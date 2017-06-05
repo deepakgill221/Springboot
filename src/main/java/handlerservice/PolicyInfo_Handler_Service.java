@@ -23,7 +23,8 @@ public class PolicyInfo_Handler_Service
 		{
 			Httpurl_Connection connection = new Httpurl_Connection();
 			String PolicyInfo = "PolicyInfo";
-			String result = connection.httpConnection_response(policyNo, PolicyInfo);
+                  	String finaldate="";
+			String result = connection.httpConnection_response(policyNo, PolicyInfo, finaldate);
 			logger.info("PolicyInfo API Response From Backend ::  "+ result.toString());
 			
 			Map resultData = Commons.getGsonData(result);
@@ -46,11 +47,15 @@ public class PolicyInfo_Handler_Service
 
 				String polStatusDesc = ((Map) ((Map) ((Map) resultData.get("response")).get("responseData"))
 						.get("BasicDetails")).get("policyStatusDesc").toString();
+ 				String lastPremPmtDt = ((Map) ((Map) ((Map) resultData.get("response")).get("responseData"))
+						.get("BasicDetails")).get("lastPremPmtDt").toString();
 
 				Map<String, String> myPolicyData = new HashMap();
 
 				myPolicyData.put("polStatusCode", polStatusCode);
 				myPolicyData.put("polStatusDesc",polStatusDesc);
+				myPolicyData.put("policyBasePlanIdDesc", policyBasePlanIdDesc);
+				myPolicyData.put("lastPremPmtDt", lastPremPmtDt);
 
 				returnMap.put("PolicyData", myPolicyData);
 
@@ -83,56 +88,56 @@ public class PolicyInfo_Handler_Service
 
 					returnMap.put("FV", fvMap);
 				} else if ("8".equals(policyInsuranceTypeCd) || "1".equals(policyInsuranceTypeCd)) {
-					Map<String, String> fvMap = new HashMap();
+					Map<String, String> fvMap = new HashMap<String, String>();
 					fvMap.put("Message", res.getString("InquiringFVfalse"));
 					returnMap.put("FV", fvMap);
 				} else {
-					Map<String, String> fvMap = new HashMap();
+					Map<String, String> fvMap = new HashMap<String, String>();
 					fvMap.put("Message", res.getString("InquiringFVfalse"));
 					returnMap.put("FV", fvMap);
 				}
 
 				if ("8".equals(policyInsuranceTypeCd) || "1".equals(policyInsuranceTypeCd)) {
 					System.out.println("CSV not Applicable");
-					Map<String, String> csv = new HashMap();
+						Map<String, String> csv = new HashMap<String, String>();
 					csv.put("Message", res.getString("cashSurrenderNotApplicable"));
 					returnMap.put("CSV", csv);
 				}
 				try {
 					if (Double.parseDouble(ctpAmt) == 0) {
 						if(Commons.dateDiff(polDueDate)<0){
-							Map<String, String> fvMap = new HashMap();
+							Map<String, String> fvMap = new HashMap<String, String>();
 							fvMap.put("Message", res.getString("CTP_CON1_1")+" "+
 									polmodprem   +" "+ res.getString("CTP_CON1_2")+" "+
 									polDueDate +" "+ res.getString("CTP_CON1_3")+"\n"+res.getString("CTP_CON1_4"));
 							returnMap.put("CTP", fvMap);
 						} else {
-							Map<String, String> fvMap = new HashMap();
+							Map<String, String> fvMap = new HashMap<String, String>();
 							fvMap.put("Message", res.getString("CTP_CON6_1") + " " + policyNo + " " + res.getString("CTP_CON6_2") + " " + polStatusDesc + " " + res.getString("CTP_CON6_3") );
 							returnMap.put("CTP", fvMap);
 						}
 					}else if(Commons.dateDiff(polDueDate)<=30){
-						Map<String, String> fvMap = new HashMap();
+						Map<String, String> fvMap = new HashMap<String, String>();
 						fvMap.put("Message", res.getString("CTP_CON2_1")+" "+polDueDate+" "+res.getString("CTP_CON2_2")+" "
 								+ ctpAmt +" "+res.getString("CTP_CON2_3"));
 						returnMap.put("CTP", fvMap);
 					}else if(Commons.dateDiff(polDueDate)>30 && Commons.dateDiff(polDueDate)<=180){
-						Map<String, String> fvMap = new HashMap();
+						Map<String, String> fvMap = new HashMap<String, String>();
 						fvMap.put("Message", res.getString("CTP_CON3_1")+" "+ctpAmt+" "+res.getString("CTP_CON3_2")+" "
 								+ polDueDate + res.getString("CTP_CON3_3"));
 						returnMap.put("CTP", fvMap);
 					}else if(Commons.dateDiff(polDueDate)>180 && Commons.dateDiff(polDueDate)<1095){
-						Map<String, String> fvMap = new HashMap();
+						Map<String, String> fvMap = new HashMap<String, String>();
 						fvMap.put("Message", res.getString("CTP_CON4_1")+" "+ctpAmt+" "+res.getString("CTP_CON4_2")+" "
 								+ polDueDate + res.getString("CTP_CON4_3"));
 						returnMap.put("CTP", fvMap);
 					}else if(Commons.dateDiff(polDueDate)>1095){
-						Map<String, String> fvMap = new HashMap();
+						Map<String, String> fvMap = new HashMap<String, String>();
 						fvMap.put("Message", res.getString("CTP_CON5_1"));
 						returnMap.put("CTP", fvMap);
 					}
 					else {
-						Map<String, String> fvMap = new HashMap();
+						Map<String, String> fvMap = new HashMap<String, String>();
 
 						fvMap.put("Message", res.getString("dueAmountPolicy1") + " " + policyNo + " "
 								+ res.getString("dueAmountPolicy2") + " " + ctpAmt + " "
@@ -147,8 +152,9 @@ public class PolicyInfo_Handler_Service
 				}
 			} else {
 
-				Map<String, String> fvMap = new HashMap();
+				Map<String, String> fvMap = new HashMap<String, String>();
 				fvMap.put("Message", "Getting error : ! 200  while calling backend service");
+				
 				returnMap.put("ErrorMessage", fvMap);
 			}
 		}
