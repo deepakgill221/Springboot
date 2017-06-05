@@ -14,8 +14,9 @@ public class PolicyDetail_Handler_Service
 
 		Map<String, String> returnMap = new HashMap<String, String>();
 		String policyDetail ="PolicyDetail";
+                String finaldate="";
 		Httpurl_Connection connection = new Httpurl_Connection();
-		String result=connection.httpConnection_response(policyNumber, policyDetail);
+		String result=connection.httpConnection_response(policyNumber, policyDetail, finaldate);
 		String mir_dv_pua_csh_valu = "";
 		String mir_dv_eff_dt = "";
 		String mir_dv_pol_csv_amt = "";
