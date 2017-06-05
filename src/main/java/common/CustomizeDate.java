@@ -1,4 +1,4 @@
-package com.qc.common;
+package common;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
