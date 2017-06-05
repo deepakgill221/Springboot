@@ -18,7 +18,7 @@ import cacheservice.OTPServiceimpl;
 public class Httpurl_Connection 
 {
 	private static Logger logger = LogManager.getLogger(Httpurl_Connection.class);
-	public String httpConnection_response(String policyNo, String methodidentifier)
+	public String httpConnection_response(String policyNo, String methodidentifier, String finaldate)
 	{
 		logger.info("Inside Method:: httpConnection_response ");
 		StringBuilder result = new StringBuilder();
@@ -34,12 +34,13 @@ public class Httpurl_Connection
 		String docID = "PRM23";	
 		String SendTo = "C"; 
 		String docDispatchMode = "E";
-		String fromDate = "04/01/2016";	
-		String toDate = "03/31/2017";
+		String fromDate1="04/01/2016";
+		String toDate1="03/31/2017";
 
 		if("OTP".equalsIgnoreCase(methodidentifier))
 		{
 			logger.info("Method Identifier :-  " +methodidentifier );
+			logger.info("");
 			soaMsgVersion=res.getString("soaMsgVersion");
 			soaAppID=res.getString("otpsoaAppID");
 			soaUserID=res.getString("otpsoaUserID");
@@ -63,6 +64,15 @@ public class Httpurl_Connection
 			soaUserPswd=res.getString("soaUserPasswordProd");
 			applicationurl=res.getString("Soa_url_cushsurrender");
 		}
+		else if("Maturity".equalsIgnoreCase(methodidentifier))
+		{
+			logger.info("Method Identifier :-  " +methodidentifier );
+			soaMsgVersion=res.getString("soaMsgVersion");
+			soaAppID=res.getString("soaAppID");
+			soaUserID=res.getString("soaUserID");
+			soaUserPswd=res.getString("soaUserPswd");
+			applicationurl=res.getString("Soa_url_policymaturity");
+		}
 		else
 		{
 			logger.info("Method Identifier :-  " +methodidentifier );
@@ -71,6 +81,9 @@ public class Httpurl_Connection
 			soaUserID=res.getString("soaUserIDProd");
 			soaUserPswd=res.getString("soaUserPasswordProd");
 			applicationurl=res.getString("Soa_url_mlidocservice");
+			String[] outputdate=finaldate.split("till");
+			fromDate1=outputdate[0];
+			toDate1=outputdate[1];	
 		}
 		try {
 			XTrustProvider trustProvider = new XTrustProvider();
@@ -120,9 +133,9 @@ public class Httpurl_Connection
 				requestdata.append("\",\"emailIdC\":\"\",\"emailIdA\":\"\",\"docDispatchMode\":\"");
 				requestdata.append(docDispatchMode);
 				requestdata.append("\",\"fromDate\":\"");
-				requestdata.append(fromDate);
+				requestdata.append(fromDate1);
 				requestdata.append("\",\"toDate\":\"");
-				requestdata.append(toDate);
+				requestdata.append(toDate1);
 				requestdata.append(
 						"\",\"fromYear\":\"\",\"toYear\":\"\",\"source\":\"\",\"machineIP\":\"\",\"uniqueTransId\":\"\",\"userId\":\"\",\"requestedBy\":\"\"}}}}");
 				logger.info("Request Data For Hitting API : - "+requestdata.toString());
