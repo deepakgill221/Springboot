@@ -8,7 +8,6 @@ public class CustomizeDate
 {
 	public String addYear(String date1, String date2)
 	{
-		int year = 0;
 		String finalDate="";
 		try{
 			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -61,24 +60,14 @@ public class CustomizeDate
 
 	public String DaysDifference(String dateStart, String dateStop)
 	{
-
-		//		dateStart = "2025-03-22";
-		//		dateStop = "2026-05-27";
 		String returnDate="";
-
-		//HH converts hour in 24 hours format (0-23), day calculation
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
 		Date d1 = null;
 		Date d2 = null;
 		try {
 			d1 = format.parse(dateStart);
 			d2 = format.parse(dateStop);
-
-			//in milliseconds
 			long diff = d2.getTime() - d1.getTime();
-
-
 			long diffSeconds = diff / 1000 % 60;
 			long diffMinutes = diff / (60 * 1000) % 60;
 			long diffHours = diff / (60 * 60 * 1000) % 24;
@@ -87,12 +76,6 @@ public class CustomizeDate
 			int yearRem=(int) (diffDays%365);
 			int month=yearRem/30;
 			int monReminder=yearRem%30;
-
-			System.out.print(year +"  year ");
-			System.out.print(month +" month ");
-			System.out.print(monReminder +" days ");
-			System.out.print(diffHours + " hours ");
-			System.out.print(diffMinutes + " minutes ");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -109,18 +92,10 @@ public class CustomizeDate
 		try {
 			d1 = format.parse(dateStart);
 			d2 = format.parse(dateStop);
-
-			//in milliseconds
 			long diff = d2.getTime() - d1.getTime();
-			long diffSeconds = diff / 1000 % 60;
-			long diffMinutes = diff / (60 * 1000) % 60;
-			long diffHours = diff / (60 * 60 * 1000) % 24;
 			long diffDays = diff / (24 * 60 * 60 * 1000);
-			int year=(int) (diffDays/365);
 			int yearRem=(int) (diffDays%365);
-			month=yearRem/30;
-			int monReminder=yearRem%30;
-
+			month=(int)(yearRem/30.4);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -135,22 +110,13 @@ public class CustomizeDate
 		Date d1 = null;
 		Date d2 = null;
 		int year=0;
-		
+
 		try {
 			d1 = format.parse(dateStart);
 			d2 = format.parse(dateStop);
-
-			//in milliseconds
 			long diff = d2.getTime() - d1.getTime();
-			long diffSeconds = diff / 1000 % 60;
-			long diffMinutes = diff / (60 * 1000) % 60;
-			long diffHours = diff / (60 * 60 * 1000) % 24;
 			long diffDays = diff / (24 * 60 * 60 * 1000);
 			year=(int) (diffDays/365);
-			int yearRem=(int) (diffDays%365);
-			int month=yearRem/30;
-			int monReminder=yearRem%30;
-
 		}
 		catch (Exception e) {
 			e.printStackTrace();
