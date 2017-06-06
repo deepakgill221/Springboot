@@ -1,4 +1,4 @@
-package com.qc.api.service;
+package handlerservice;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,8 +6,8 @@ import java.util.ResourceBundle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
-import com.qc.common.Commons;
-import com.qc.common.Httpurl_Connection;
+import common.Commons;
+import common.Httpurl_Connection;
 
 @Component
 public class PolicyPack_Handler_Service 
