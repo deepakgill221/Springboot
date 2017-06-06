@@ -434,7 +434,7 @@ public class ChatBotController {
 								int billingFreqcd=Integer.parseInt(billingFreqCd);
 								int PremDueCount2=month/billingFreqcd;
 								speech=resProp.getString("maturity22")+" "+cachePolicyNo+" "+resProp.getString("maturity8")+" "+Commons.convertDateFormat(getYear)
-										+resProp.getString("premium25")+" "+PremDueCount2+" "+resProp.getString("premium26");
+										+" "+resProp.getString("premium25")+" "+PremDueCount2+" "+resProp.getString("premium26");
 							}
 
 						}
