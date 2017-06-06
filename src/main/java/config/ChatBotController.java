@@ -90,7 +90,7 @@ public class ChatBotController {
 					}
 				}
 				else{
-					speech = "Thank you for contacting Max Life. Have a great day!";
+					speech = resProp.getString("validPolicyMessage");
 				}
 			}
 			break;
@@ -220,7 +220,7 @@ public class ChatBotController {
 					}
 				} 
 				else{
-					speech = "Thank you for contacting Max Life. Have a great day!";
+					speech = resProp.getString("validPolicyMessage");
 				}
 			}
 			break;
@@ -252,7 +252,7 @@ public class ChatBotController {
 					}
 				}
 				else{
-					speech = "Thank you for contacting Max Life. Have a great day!";
+					speech = resProp.getString("validPolicyMessage");
 				}
 			}
 			break;
@@ -285,7 +285,7 @@ public class ChatBotController {
 					}
 				}
 				else{
-					speech = "Thank you for contacting Max Life. Have a great day!";
+					speech = resProp.getString("validPolicyMessage");
 				}
 			}
 			break;
@@ -308,7 +308,7 @@ public class ChatBotController {
 					}
 				}
 				else{
-					speech = "Thank you for contacting Max Life. Have a great day!";
+					speech = resProp.getString("validPolicyMessage");
 				}
 			}
 			break;
@@ -343,7 +343,7 @@ public class ChatBotController {
 					}
 				} 
 				else{
-					speech = "Thank you for contacting Max Life. Have a great day!";
+					speech = resProp.getString("validPolicyMessage");
 				}
 			}
 			break;
@@ -356,7 +356,7 @@ public class ChatBotController {
 				}
 				else
 				{
-					speech = "Thank you for contacting Max Life. Have a great day!";
+					speech = resProp.getString("validPolicyMessage");
 				}
 			}
 			break;
