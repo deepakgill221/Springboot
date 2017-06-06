@@ -138,6 +138,7 @@ public class ChatBotController {
 							if (otp_session.equals(policy_Number)) {
 								String policyBasePlanIdDesc="";
 								String lastPremPmtDt="";
+
 								Map data = policyInfo_Handler_Service.getPolicyInfo(cachePolicyNo);
 								try{
 								String Json = mapperObj.writeValueAsString(data);
@@ -196,7 +197,6 @@ public class ChatBotController {
 					{
 						String otp_session = "";
 						String OTP_request=object.getJSONObject("result").getJSONObject("parameters").getJSONObject("OTP").get("Provided-OTP")+"";
-					
 						otp_session = cacheOTP;
 						if (!"".equalsIgnoreCase(otp_session) && otp_session != null) {
 							if (otp_session.equals(OTP_request)) 
@@ -357,6 +357,107 @@ public class ChatBotController {
 				else
 				{
 					speech = resProp.getString("validPolicyMessage");
+				}
+			}
+			break;
+			case "Policy.PremiumPaymentTerm":
+			{
+				if(responsecache_onsessionId.containsKey(sessionId))
+				{
+					String premChngeDtCd=""; String premChngAgeDur=""; String cvgMatXpryDt=""; String cvgIssEffDt="";
+					String cvgPlanIdCd=""; String origPlanIdCd="";
+					String cachePolicyNo=responsecache_onsessionId.get(sessionId).get("PolicyNo")+"";
+					Map<String, Object> cashdata=(Map)responsecache_onsessionId.get(sessionId).get("OverAllMaturityCashData");
+					String maturitycashdata=cashdata.get("MaturityCashData")+"";
+					Map<String, Object> resultData = Commons.getGsonData(maturitycashdata);
+					String policyStatusCd = ((Map) ((Map) ((Map) resultData.get("response")).get("responseData"))
+							.get("BasicDetails")).get("policyStatusCd").toString();
+					String policyStatusDesc = ((Map) ((Map) ((Map) resultData.get("response")).get("responseData"))
+							.get("BasicDetails")).get("policyStatusDesc").toString();
+					String polDueDate = ((Map) ((Map) ((Map) resultData.get("response")).get("responseData"))
+							.get("BasicDetails")).get("polDueDate").toString();
+					String billingFreqCd = ((Map) ((Map) ((Map) resultData.get("response")).get("responseData"))
+							.get("BasicDetails")).get("billingFreqCd").toString();
+					List cvgDetails = (List)((Map)((Map) resultData.get("response")).get("responseData")).get("coverageDetailsArray");
+
+					if(cvgDetails!=null && !cvgDetails.isEmpty())
+					{
+						for(int i=0; i<cvgDetails.size(); i++)
+						{
+							String cvgNum =((Map) cvgDetails.get(i)).get("cvgNum")+"";
+							if("01".equals(cvgNum))
+							{
+								premChngeDtCd =((Map) cvgDetails.get(i)).get("premChngeDtCd")+"";
+								premChngAgeDur =((Map) cvgDetails.get(i)).get("premChngAgeDur")+"";
+								cvgMatXpryDt =((Map) cvgDetails.get(i)).get("cvgMatXpryDt")+"";
+								cvgIssEffDt =((Map) cvgDetails.get(i)).get("cvgIssEffDt")+"";
+								cvgPlanIdCd =((Map) cvgDetails.get(i)).get("cvgPlanIdCd")+"";
+								origPlanIdCd="U2NIR5";
+							}
+						}
+					}
+					if("1".equalsIgnoreCase(policyStatusCd))
+					{
+						CustomizeDate custdate = new CustomizeDate();
+						if(!"A".equalsIgnoreCase(premChngeDtCd))
+						{
+
+							int i =custdate.comparetwoDates(polDueDate, cvgMatXpryDt);
+							if(i==2)
+							{
+								speech=resProp.getString("maturity21");
+							}
+							else	
+							{
+								int month =custdate.getMonth(cvgMatXpryDt,polDueDate);
+								int billingFreqcd=Integer.parseInt(billingFreqCd);
+								int PremDueCount1=month/billingFreqcd;
+								speech=resProp.getString("maturity22")+" "+cachePolicyNo+resProp.getString("maturity8")
+								+Commons.convertDateFormat(cvgMatXpryDt)+resProp.getString("premium25")+PremDueCount1
+								+resProp.getString("premium26");
+							}
+						}
+						else
+						{
+							String premChngAgeDurYear=custdate.addYear(cvgIssEffDt, premChngAgeDur);
+							int ir =custdate.comparetwoDates(polDueDate, premChngAgeDurYear);
+							if(ir==2)
+							{
+								speech=resProp.getString("maturity21");
+							}
+							else
+							{
+								String getYear=custdate.addYear(cvgIssEffDt, premChngAgeDur);
+								int month =custdate.getMonth(getYear,polDueDate);
+								int billingFreqcd=Integer.parseInt(billingFreqCd);
+								int PremDueCount2=month/billingFreqcd;
+								speech=resProp.getString("maturity22")+" "+cachePolicyNo+" "+resProp.getString("maturity8")+" "+Commons.convertDateFormat(getYear)
+										+resProp.getString("premium25")+" "+PremDueCount2+" "+resProp.getString("premium26");
+							}
+
+						}
+					}
+					else
+					{
+						if("3".equalsIgnoreCase(policyStatusCd) ||"4".equalsIgnoreCase(policyStatusCd))
+						{
+							if (cvgPlanIdCd.equalsIgnoreCase(origPlanIdCd))  
+							{
+								speech=resProp.getString("maturity21");
+							}
+						}
+						else
+						{
+							if (cvgPlanIdCd.equalsIgnoreCase(origPlanIdCd))  
+							{
+								speech=resProp.getString("maturity22")+" "+cachePolicyNo+" "+resProp.getString("maturity23")
+								+" "+policyStatusDesc+resProp.getString("maturity24");
+							}
+						}
+					}
+				}
+				else{
+					speech = "Thank you for contacting Max Life. Have a great day!";
 				}
 			}
 			break;
