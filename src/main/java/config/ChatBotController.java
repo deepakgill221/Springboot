@@ -26,6 +26,7 @@ import handlerservice.MliDoc_Handler_Service;
 import handlerservice.OTP_Handler_Service;
 import handlerservice.PolicyDetail_Handler_Service;
 import handlerservice.PolicyInfo_Handler_Service;
+import handlerservice.PolicyPack_Handler_Service;
 import common.Commons;
 import common.CustomizeDate;
 
@@ -48,6 +49,8 @@ public class ChatBotController {
 	MliDoc_Handler_Service mliDoc_Handler_Service;
 	@Autowired
 	MaturityDate maturityDate;
+	@Autowired
+	PolicyPack_Handler_Service policyPack_Handler_Service;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody WebhookResponse webhook(@RequestBody String obj, Model model, HttpSession httpSession) {
@@ -463,6 +466,27 @@ public class ChatBotController {
 				}
 			}
 			break;
+			case "Input.PolicyPack":
+			{
+				if(responsecache_onsessionId.containsKey(sessionId))
+				{
+					String cachePolicyNo=responsecache_onsessionId.get(sessionId).get("PolicyNo")+"";
+					String cachevalidOTP=responsecache_onsessionId.get(sessionId).get("ValidOTP")+"";
+					if ("".equalsIgnoreCase(cachePolicyNo) || cachePolicyNo == null)
+					{
+						speech = resProp.getString("validPolicyMessage");
+					} else if ("".equalsIgnoreCase(cachevalidOTP) || cachevalidOTP == null) {
+						speech = resProp.getString("validateOTP").concat(cachePolicyNo);
+					} else {
+						speech = policyPack_Handler_Service.getPolicyPackService(cachePolicyNo).get("Message");
+					}
+				}
+				else{
+					speech = resProp.getString("validPolicyMessage");
+				}
+			}
+			break;
+			
 			case "close.conversation":
 			{
 				if(responsecache_onsessionId.containsKey(sessionId))
