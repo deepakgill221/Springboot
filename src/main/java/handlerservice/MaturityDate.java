@@ -79,13 +79,9 @@ public class MaturityDate
 					}
 				}else 
 				{
-					if(!"1".equalsIgnoreCase(policyStatusCd) && !"2".equalsIgnoreCase(policyStatusCd) && !"3".equalsIgnoreCase(policyStatusCd)
-							&& !"4".equalsIgnoreCase(policyStatusCd) && !"1A".equalsIgnoreCase(policyStatusCd))
-					{
 						String message1=res.getString("maturity1 ")+policyNo+res.getString(" maturity2")
 						+policyStatusDesc+res.getString("maturity3");
 						returnMap.put("maturityMessage", message1);
-					}
 				}
 			}else 
 			{
