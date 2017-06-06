@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import common.Commons;
+import common.CustomizeDate;
 import common.Httpurl_Connection;
 
 @Component
@@ -37,6 +38,7 @@ public class MaturityDate
 			{
 				String cvgIssEffDt="";
 				String cvgMatXpryDt="";
+				CustomizeDate cusDate = new CustomizeDate();
 				String policyStatusCd = ((Map) ((Map) ((Map) resultData.get("response")).get("responseData"))
 						.get("BasicDetails")).get("policyStatusCd").toString();
 				String policyStatusDesc = ((Map) ((Map) ((Map) resultData.get("response")).get("responseData"))
@@ -67,8 +69,12 @@ public class MaturityDate
 					}
 					else
 					{
-						String message=res.getString("maturity7")+policyNo
-								+res.getString("maturity8")+cvgMatXpryDt+" and "+cvgIssEffDt+res.getString("maturity9");
+						CustomizeDate cd = new CustomizeDate();
+						int year=cd.getYear(cvgIssEffDt, cvgMatXpryDt);
+						String finalYear=String.valueOf(year);
+						String message=res.getString("maturity7")+policyNo+" "
+								+res.getString("maturity8")+Commons.convertDateFormat(cvgMatXpryDt)+" "+res.getString("maturity11") 
+								+finalYear+" "+res.getString("maturity9");
 						returnMap.put("maturityMessage", message);
 					}
 				}else 
