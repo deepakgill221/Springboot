@@ -85,17 +85,15 @@ public class CustomizeDate
 	public int getMonth(String dateStart, String dateStop)
 	{
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
 		Date d1 = null;
 		Date d2 = null;
 		int month=0;
 		try {
-			d1 = format.parse(dateStart);
-			d2 = format.parse(dateStop);
+			d1 = format.parse(dateStop);
+			d2 = format.parse(dateStart);
 			long diff = d2.getTime() - d1.getTime();
 			long diffDays = diff / (24 * 60 * 60 * 1000);
-			int yearRem=(int) (diffDays%365);
-			month=(int)(yearRem/30.4);
+		    month=(int) (diffDays/30.4);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
