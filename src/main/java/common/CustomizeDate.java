@@ -3,9 +3,28 @@ package common;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
+import java.text.ParseException;
 public class CustomizeDate 
 {
+	public String addYear(String date1, String date2)
+	{
+		int year = 0;
+		String finalDate="";
+		try{
+			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date dr = myFormat.parse(date1);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(dr);
+			cal.add(Calendar.YEAR, Integer.parseInt(date2));
+			Date nextYear = cal.getTime();
+			finalDate=myFormat.format(nextYear);
+			System.out.println(finalDate);
+		}catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return finalDate;
+	}
 	public  String DateFormat(String converdate) throws Exception
 	{
 		String str1="1st April "; String str2="31 March "; String str3="till"; String month = "";
@@ -38,47 +57,126 @@ public class CustomizeDate
 		return responseDate;
 	}
 
-//	public static void main(String [] adf) throws Exception
-//	{
-//		
-//		CustomizeDate lc = new CustomizeDate();
-//		lc.DaysDifference();
-//	}
 
-//	public String DaysDifference()
-//	{
-//
-//		String dateStart = "2026-05-27";
-//		String dateStop = "2016-05-27";
-//		String returnDate="";
-//
-//		//HH converts hour in 24 hours format (0-23), day calculation
-//		SimpleDateFormat format = new SimpleDateFormat("yyyy/dd/MM");
-//
-//		Date d1 = null;
-//		Date d2 = null;
-//		try {
-//			d1 = format.parse(dateStart);
-//			d2 = format.parse(dateStop);
-//
-//			//in milliseconds
-//			long diff = d2.getTime() - d1.getTime();
-//
-//			long diffSeconds = diff / 1000 % 60;
-//			long diffMinutes = diff / (60 * 1000) % 60;
-//			long diffHours = diff / (60 * 60 * 1000) % 24;
-//			long diffDays = diff / (24 * 60 * 60 * 1000);
-//            System.out.println("Difference" + diff);
-//			System.out.print(diffDays + " days, ");
-//			System.out.print(diffHours + " hours, ");
-//			System.out.print(diffMinutes + " minutes, ");
-//			System.out.print(diffSeconds + " seconds.");
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return returnDate;
-//
-//	}
+
+	public String DaysDifference(String dateStart, String dateStop)
+	{
+
+		//		dateStart = "2025-03-22";
+		//		dateStop = "2026-05-27";
+		String returnDate="";
+
+		//HH converts hour in 24 hours format (0-23), day calculation
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+		Date d1 = null;
+		Date d2 = null;
+		try {
+			d1 = format.parse(dateStart);
+			d2 = format.parse(dateStop);
+
+			//in milliseconds
+			long diff = d2.getTime() - d1.getTime();
+
+
+			long diffSeconds = diff / 1000 % 60;
+			long diffMinutes = diff / (60 * 1000) % 60;
+			long diffHours = diff / (60 * 60 * 1000) % 24;
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+			int year=(int) (diffDays/365);
+			int yearRem=(int) (diffDays%365);
+			int month=yearRem/30;
+			int monReminder=yearRem%30;
+
+			System.out.print(year +"  year ");
+			System.out.print(month +" month ");
+			System.out.print(monReminder +" days ");
+			System.out.print(diffHours + " hours ");
+			System.out.print(diffMinutes + " minutes ");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return returnDate;
+	}
+
+	public int getMonth(String dateStart, String dateStop)
+	{
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+		Date d1 = null;
+		Date d2 = null;
+		int month=0;
+		try {
+			d1 = format.parse(dateStart);
+			d2 = format.parse(dateStop);
+
+			//in milliseconds
+			long diff = d2.getTime() - d1.getTime();
+			long diffSeconds = diff / 1000 % 60;
+			long diffMinutes = diff / (60 * 1000) % 60;
+			long diffHours = diff / (60 * 60 * 1000) % 24;
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+			int year=(int) (diffDays/365);
+			int yearRem=(int) (diffDays%365);
+			month=yearRem/30;
+			int monReminder=yearRem%30;
+
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return month;
+	}
 	
+	public int getYear(String dateStart, String dateStop)
+	{
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+		Date d1 = null;
+		Date d2 = null;
+		int year=0;
+		
+		try {
+			d1 = format.parse(dateStart);
+			d2 = format.parse(dateStop);
+
+			//in milliseconds
+			long diff = d2.getTime() - d1.getTime();
+			long diffSeconds = diff / 1000 % 60;
+			long diffMinutes = diff / (60 * 1000) % 60;
+			long diffHours = diff / (60 * 60 * 1000) % 24;
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+			year=(int) (diffDays/365);
+			int yearRem=(int) (diffDays%365);
+			int month=yearRem/30;
+			int monReminder=yearRem%30;
+
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return year;
+	}
+	public int comparetwoDates(String firstDate, String secondDate) throws ParseException
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = sdf.parse(firstDate);
+		Date date2 = sdf.parse(secondDate);
+		System.out.println("date1 : " + sdf.format(date1));
+		System.out.println("date2 : " + sdf.format(date2));
+
+		if (date1.compareTo(date2) > 0)
+		{
+			return 0;
+		} else if (date1.compareTo(date2) < 0) {
+			return 1;
+		} else if (date1.compareTo(date2) == 0) {
+			return 2;
+		} else {
+			System.out.println("How to get here?");
+		}
+		return 3;
+	}
+
+
 }
