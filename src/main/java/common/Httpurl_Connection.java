@@ -32,6 +32,7 @@ public class Httpurl_Connection
 		String soaUserPswd="";
 		String applicationurl=""; 
 		String docID = "PRM23";	
+		String policyPackType="01";
 		String SendTo = "C"; 
 		String docDispatchMode = "E";
 		String fromDate1="04/01/2016";
@@ -73,6 +74,15 @@ public class Httpurl_Connection
 			soaUserPswd=res.getString("soaUserPswd");
 			applicationurl=res.getString("Soa_url_policymaturity");
 		}
+		else if("PolicyPack".equalsIgnoreCase(methodidentifier))
+		{
+			logger.info("Method Identifier :-  " +methodidentifier );
+			soaMsgVersion=res.getString("soaMsgVersion");
+			soaAppID=res.getString("soaAppID");
+			soaUserID=res.getString("soaUserIDProd");
+			soaUserPswd=res.getString("soaUserPasswordProd");
+			applicationurl=res.getString("Soa_url_policypack");
+		}
 		else
 		{
 			logger.info("Method Identifier :-  " +methodidentifier );
@@ -96,7 +106,7 @@ public class Httpurl_Connection
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json");
 			StringBuilder requestdata = new StringBuilder();
-			if(!"MLIDOC".equalsIgnoreCase(methodidentifier))
+			if(!"MLIDOC".equalsIgnoreCase(methodidentifier) && !"PolicyPack".equalsIgnoreCase(methodidentifier))
 			{
 				requestdata.append(" 	{	 ");
 				requestdata.append(" 	   \"request\": {	 ");
@@ -112,7 +122,26 @@ public class Httpurl_Connection
 				requestdata.append(" 	      }	 ");
 				requestdata.append(" 	   }	 ");
 				requestdata.append(" 	}	 ");
-				logger.info("Request Data For Hitting API : - "+requestdata.toString());
+				System.out.println("Request Data For Hitting API : - "+requestdata.toString());
+			}
+			else if("PolicyPack".equalsIgnoreCase(methodidentifier))
+			{
+				requestdata.append(" 	{	 ");
+				requestdata.append(" 	   \"request\": {	 ");
+				requestdata.append(" 	      \"header\": {	 ");
+				requestdata.append(" 	         \"soaCorrelationId\": \"").append(soaCorrelationId).append("\",	 ");
+				requestdata.append(" 	         \"soaMsgVersion\": \"").append(soaMsgVersion).append("\",	 ");
+				requestdata.append(" 	         \"soaAppId\": \"").append(soaAppID).append("\",	 ");
+				requestdata.append(" 	         \"soaUserId\": \"").append(soaUserID).append("\",	 ");
+				requestdata.append(" 	         \"soaPassword\": \"").append(soaUserPswd).append("\"	 ");
+				requestdata.append(" 	      },	 ");
+				requestdata.append(" 	      \"requestData\": {	 ");
+				requestdata.append(" 	         \"policyId\": \"").append(policyNo).append("\", ");
+				requestdata.append(" 	         \"type\": \"").append(policyPackType).append("\"	 ");
+				requestdata.append(" 	      }	 ");
+				requestdata.append(" 	   }	 ");
+				requestdata.append(" 	}	 ");
+				System.out.println("Request Data For Hitting API : - "+requestdata.toString());
 			}
 			else
 			{
@@ -138,7 +167,7 @@ public class Httpurl_Connection
 				requestdata.append(toDate1);
 				requestdata.append(
 						"\",\"fromYear\":\"\",\"toYear\":\"\",\"source\":\"\",\"machineIP\":\"\",\"uniqueTransId\":\"\",\"userId\":\"\",\"requestedBy\":\"\"}}}}");
-				logger.info("Request Data For Hitting API : - "+requestdata.toString());
+				System.out.println("Request Data For Hitting API : - "+requestdata.toString());
 
 			}
 			System.out.println("External API Call : START");
@@ -181,7 +210,6 @@ public class Httpurl_Connection
 				{
 					return  res.getString("GenericBackendErrorMessage");
 				}
-				
 			}
 		}
 		catch(Exception e)
