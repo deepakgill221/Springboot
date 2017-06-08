@@ -32,7 +32,7 @@ public class Httpurl_Connection
 		String soaUserPswd="";
 		String applicationurl=""; 
 		String docID = "PRM23";	
-		String policyPackType="01";
+		String policyPackType="03";
 		String SendTo = "C"; 
 		String docDispatchMode = "E";
 		String fromDate1="04/01/2016";
