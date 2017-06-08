@@ -63,8 +63,8 @@ public class MaturityDate
 				{
 					if("0".equalsIgnoreCase(policyTerm))
 					{
-						String message=res.getString("maturity4 ")+policyNo
-								+res.getString("maturity5")+policyTerm+res.getString("maturity6");
+						String message=res.getString("maturity4 ")+" "+policyNo+" "+
+								res.getString("maturity5")+" "+policyTerm+" "+res.getString("maturity6");
 						returnMap.put("maturityMessage", message);
 					}
 					else
@@ -72,16 +72,16 @@ public class MaturityDate
 						CustomizeDate cd = new CustomizeDate();
 						int year=cd.getYear(cvgIssEffDt, cvgMatXpryDt);
 						String finalYear=String.valueOf(year);
-						String message=res.getString("maturity7")+policyNo+" "
-								+res.getString("maturity8")+Commons.convertDateFormat(cvgMatXpryDt)+" "+res.getString("maturity11") 
-								+finalYear+" "+res.getString("maturity9");
+						String message=res.getString("maturity7")+" "+policyNo+" "
+								+res.getString("maturity8")+" "+Commons.convertDateFormat(cvgMatXpryDt)+" "+res.getString("maturity11") 
+								+" "+finalYear+" "+res.getString("maturity9");
 						returnMap.put("maturityMessage", message);
 					}
 				}else 
 				{
-						String message1=res.getString("maturity1 ")+policyNo+res.getString(" maturity2")
-						+policyStatusDesc+res.getString("maturity3");
-						returnMap.put("maturityMessage", message1);
+					String message1=res.getString("maturity1 ")+" "+policyNo+" "+res.getString(" maturity2")
+					+" "+policyStatusDesc+" "+res.getString("maturity3");
+					returnMap.put("maturityMessage", message1);
 				}
 			}else 
 			{
