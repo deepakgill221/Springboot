@@ -4,7 +4,7 @@
 <!-- Server Configuration -->
 
 	<Properties>
-		     <Property name="log-path">/mount_log/maxservice</Property> 
+		     <Property name="log-path">/cschatbot</Property> 
 		  <!--  <Property name="log-path">C:\\LOGS</Property> -->
 	</Properties>
 	<Appenders>
