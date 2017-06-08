@@ -63,7 +63,7 @@ public class MaturityDate
 				{
 					if("0".equalsIgnoreCase(policyTerm))
 					{
-						String message=res.getString("maturity4 ")+" "+policyNo+" "+
+						String message=res.getString("maturity4")+" "+policyNo+" "+
 								res.getString("maturity5")+" "+policyTerm+" "+res.getString("maturity6");
 						returnMap.put("maturityMessage", message);
 					}
@@ -79,7 +79,7 @@ public class MaturityDate
 					}
 				}else 
 				{
-					String message1=res.getString("maturity1 ")+" "+policyNo+" "+res.getString(" maturity2")
+					String message1=res.getString("maturity1")+" "+policyNo+" "+res.getString("maturity2")
 					+" "+policyStatusDesc+" "+res.getString("maturity3");
 					returnMap.put("maturityMessage", message1);
 				}
