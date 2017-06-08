@@ -415,10 +415,11 @@ public class ChatBotController {
 							else	
 							{
 								int month =custdate.getMonth(cvgMatXpryDt,polDueDate);
+								String customizeDate=custdate.subtractMonth(cvgMatXpryDt, billingFreqCd);
 								int billingFreqcd=Integer.parseInt(billingFreqCd);
 								int PremDueCount1=month/billingFreqcd;
 								speech=resProp.getString("maturity22")+" "+cachePolicyNo+" "+resProp.getString("maturity8")
-								+" "+Commons.convertDateFormat(cvgMatXpryDt)+" "+resProp.getString("premium25")+" "+PremDueCount1
+								+" "+Commons.convertDateFormat(customizeDate)+" "+resProp.getString("premium25")+" "+PremDueCount1
 								+" "+resProp.getString("premium26");
 							}
 						}
@@ -433,10 +434,12 @@ public class ChatBotController {
 							else
 							{
 								String getYear=custdate.addYear(cvgIssEffDt, premChngAgeDur);
+								String customizeDate=custdate.subtractMonth(getYear, billingFreqCd);
 								int month =custdate.getMonth(getYear,polDueDate);
 								int billingFreqcd=Integer.parseInt(billingFreqCd);
 								int PremDueCount2=month/billingFreqcd;
-								speech=resProp.getString("maturity22")+" "+cachePolicyNo+" "+resProp.getString("maturity8")+" "+Commons.convertDateFormat(getYear)
+								speech=resProp.getString("maturity22")+" "+cachePolicyNo+" "+resProp.getString("maturity8")
+								+" "+Commons.convertDateFormat(customizeDate)
 										+" "+resProp.getString("premium25")+" "+PremDueCount2+" "+resProp.getString("premium26");
 							}
 
@@ -462,7 +465,7 @@ public class ChatBotController {
 					}
 				}
 				else{
-					speech = "Thank you for contacting Max Life. Have a great day!";
+					speech = resProp.getString("validPolicyMessage");
 				}
 			}
 			break;
