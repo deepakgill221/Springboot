@@ -141,6 +141,24 @@ public class CustomizeDate
 		}
 		return 3;
 	}
+	public String subtractMonth(String date1, String variable)
+	{
+		String finalDate="";
+		try{
+			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date dr = myFormat.parse(date1);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(dr);
+			cal.add(Calendar.MONTH, -Integer.parseInt(variable));
+			Date nextYear = cal.getTime();
+			finalDate=myFormat.format(nextYear);
+			System.out.println(finalDate);
+		}catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return finalDate;
+	}
 
 
 }
