@@ -417,9 +417,9 @@ public class ChatBotController {
 								int month =custdate.getMonth(cvgMatXpryDt,polDueDate);
 								int billingFreqcd=Integer.parseInt(billingFreqCd);
 								int PremDueCount1=month/billingFreqcd;
-								speech=resProp.getString("maturity22")+" "+cachePolicyNo+resProp.getString("maturity8")
-								+Commons.convertDateFormat(cvgMatXpryDt)+resProp.getString("premium25")+PremDueCount1
-								+resProp.getString("premium26");
+								speech=resProp.getString("maturity22")+" "+cachePolicyNo+" "+resProp.getString("maturity8")
+								+" "+Commons.convertDateFormat(cvgMatXpryDt)+" "+resProp.getString("premium25")+" "+PremDueCount1
+								+" "+resProp.getString("premium26");
 							}
 						}
 						else
