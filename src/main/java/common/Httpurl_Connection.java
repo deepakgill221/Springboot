@@ -41,12 +41,11 @@ public class Httpurl_Connection
 		if("OTP".equalsIgnoreCase(methodidentifier))
 		{
 			logger.info("Method Identifier :-  " +methodidentifier );
-			logger.info("");
 			soaMsgVersion=res.getString("soaMsgVersion");
-			soaAppID=res.getString("soaAppID");
-			soaUserID=res.getString("soaUserID");
-			soaUserPswd=res.getString("soaUserPswd");
-			applicationurl=res.getString("Soa_url_OTP");
+			soaAppID=res.getString("otpsoaAppID");
+			soaUserID=res.getString("otpsoaUserID");
+			soaUserPswd=res.getString("otpsoaUserPswd");
+			applicationurl=res.getString("Soa_url_OTP_Prod");
 
 		}else if("PolicyInfo".equalsIgnoreCase(methodidentifier))
 		{
