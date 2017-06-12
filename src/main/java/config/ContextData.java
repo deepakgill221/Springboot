@@ -1,4 +1,4 @@
-package com.qc.api.response;
+package config;
 
 public class ContextData 
 {
