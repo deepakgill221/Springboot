@@ -1,6 +1,7 @@
 package config;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import response.ContextData;
+import response.InnerContextData;
 import config.WebhookResponse;
 
 import handlerservice.MaturityDate;
@@ -55,6 +59,7 @@ public class ChatBotController {
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody WebhookResponse webhook(@RequestBody String obj, Model model, HttpSession httpSession) {
 		String speech = null;
+		List<ContextData> contextDataList = new ArrayList<ContextData>();
 		try {
 			System.out.println("Controller : Webhook : START");
 
@@ -63,10 +68,48 @@ public class ChatBotController {
 			logger.info("Request Session Id :- "+ sessionId);
 			String action = object.getJSONObject("result").get("action")+"";
 			String policy_Number="";
+			String lifespan="";
+			String name=""; 
+			String polcyNumberOrginal="";
+			String Given_PolicyNumber="";
+			
 			ObjectMapper mapperObj = new ObjectMapper();
 			logger.info("Request Action :- "+ action);
 			try{
 				policy_Number = object.getJSONObject("result").getJSONObject("parameters").getJSONObject("PolicyNumber").get("Given-PolicyNumber")+"";
+			}catch(Exception e)
+			{
+				policy_Number="";
+			}
+			try{
+				JSONArray contexts = object.getJSONObject("result").getJSONArray("contexts");
+				for(int i=0; i<contexts.length(); i++)
+				{
+					InnerContextData innerContextdata = new InnerContextData();
+					ContextData contextData = new ContextData();
+					try{
+					lifespan = contexts.getJSONObject(i).get("lifespan")+"";
+					}catch(Exception e)	{logger.info(e);}
+					try{
+					name = contexts.getJSONObject(i).get("name")+"";
+					}
+					catch(Exception ex){logger.info(ex);};
+					JSONObject newContexts = contexts.getJSONObject(i).getJSONObject("parameters").getJSONObject("PolicyNumber");
+					if(newContexts!=null && !newContexts.isNull("Given-PolicyNumber"))
+					{
+					   Given_PolicyNumber=newContexts.get("Given-PolicyNumber")+"";
+					   innerContextdata.setGivenPolicyNumber(Given_PolicyNumber);
+					   contextData.setParameters(innerContextdata);
+					}
+					try
+					{
+					polcyNumberOrginal = contexts.getJSONObject(i).getJSONObject("parameters").get("PolicyNumber.original")+"";
+				    }catch(Exception ex){logger.info(ex);}
+					contextData.setLifespan(lifespan);
+					contextData.setName(name);
+					contextData.setPolicyNumberOriginal(polcyNumberOrginal);
+					contextDataList.add(contextData);
+				}
 			}catch(Exception e)
 			{
 				policy_Number="";
@@ -120,7 +163,7 @@ public class ChatBotController {
 							responsecache_onsessionId.put(sessionId, orignalData);
 							logger.info("END :: Request For Re-Generate PolicyOTP :- "+serviceResp);
 							speech = orignalData.get("Message");
-							WebhookResponse responseObj = new WebhookResponse(speech, speech);
+							WebhookResponse responseObj = new WebhookResponse(speech, speech, contextDataList);
 							return responseObj;
 						}
 					}
@@ -509,7 +552,7 @@ public class ChatBotController {
 			e.printStackTrace();
 		}
 		System.out.println(speech);
-		WebhookResponse responseObj = new WebhookResponse(speech, speech);
+		WebhookResponse responseObj = new WebhookResponse(speech, speech, contextDataList );
 		return responseObj;
 	}
 
