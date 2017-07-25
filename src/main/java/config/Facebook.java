@@ -1,6 +1,6 @@
 package config;
 
-
+import config.Attachments;
 import java.util.List;
 
 public class Facebook<Paylaod> 
