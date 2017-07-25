@@ -66,12 +66,14 @@ public class ChatBotController {
 	public @ResponseBody WebhookResponse webhook(@RequestBody String obj, Model model, HttpSession httpSession) {
 		String speech = null;
 		List<ContextData> contextDataList = new ArrayList<ContextData>();
-                	List<InnerButton> innerbuttonlist = new ArrayList<InnerButton>();
+                	//List<InnerButton> innerbuttonlist = new ArrayList<InnerButton>();
+		List<Attachments> attachmentList = new ArrayList<Attachments>();
 		Facebook<?> fb = new Facebook();
-		InnerData innerData= new InnerData();
+		//InnerData innerData= new InnerData();
+		Attachments a = new Attachments();
 		//InnerButton innerButton = new InnerButton();
-		List<Payload> payloadList = new ArrayList<Payload>();
-		Payload payload = new Payload();
+		//List<Payload> payloadList = new ArrayList<Payload>();
+		//Payload payload = new Payload();
 		try {
 			System.out.println("Controller : Webhook : START");
 
@@ -560,26 +562,29 @@ break;
 					
 			case "test":
 			{
-				InnerButton innerButton1 = new InnerButton();
-				innerButton1.setType("web_url");
-				innerButton1.setUrl("https://petersfancybrownhats.com");
-				innerButton1.setTitle("View Website");
+				a.setColor("#00A399");
+				a.setTitle("Hello world!");
+				a.setTitle_Link("https://www.mywebsite.se");
 				//For Second button
-				InnerButton innerButton2 = new InnerButton();
-				innerButton2.setType("web_url");
-				innerButton2.setUrl("https://petersfancybrownhats.com");
-				innerButton2.setTitle("View Website");
-				innerbuttonlist.add(innerButton1);
-				innerbuttonlist.add(innerButton2);
-				payload.setTemplate_type("template");
-				payload.setButtons(innerbuttonlist);
-				payloadList.add(payload);
-				fb.setPayload(payloadList);
-				fb.setTitle("MLIChatBot");
-				fb.setPlatform("API.AI");
-				fb.setType("4");
-				fb.setImageUrl("BOT");
-				innerData.setFacebook(fb);
+				//InnerButton innerButton2 = new InnerButton();
+				//innerButton2.setType("web_url");
+				//innerButton2.setUrl("https://petersfancybrownhats.com");
+				//innerButton2.setTitle("View Website");
+				attachmentList.add(a);
+				//innerbuttonlist.add(innerButton2);
+				//payload.setTemplate_type("template");
+				//payload.setButtons(innerbuttonlist);
+				//payloadList.add(payload);
+				//fb.setPayload(payloadList);
+				//fb.setTitle("MLIChatBot");
+				//fb.setPlatform("API.AI");
+				//fb.setType("Chatbot");
+				//fb.setImageUrl("BOT");
+				//innerData.setFacebook(fb);
+				fb.setAttachments(attachmentList);
+				fb.setText("Horray! Great success! :");
+				
+			}
 			}
 			default : 
 				speech = "Thank you for contacting Max Life. Have a great day!";
@@ -589,7 +594,7 @@ break;
 			e.printStackTrace();
 		}
 		System.out.println(speech);
-		WebhookResponse responseObj = new WebhookResponse(speech, speech, contextDataList,innerData );
+		WebhookResponse responseObj = new WebhookResponse(speech, speech, contextDataList,fb );
 		return responseObj;
 	}
 
