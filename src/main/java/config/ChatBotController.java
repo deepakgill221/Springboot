@@ -68,7 +68,7 @@ public class ChatBotController {
 		String speech = null;
 		List<ContextData> contextDataList = new ArrayList<ContextData>();
                 	//List<InnerButton> innerbuttonlist = new ArrayList<InnerButton>();
-		List<Attachments> attachmentList = new ArrayList<Attachments>();
+		//List<Attachments> attachmentList = new ArrayList<Attachments>();
 		Facebook<?> fb = new Facebook();
 		InnerData innerData= new InnerData();
 		Attachments a = new Attachments();
@@ -571,7 +571,7 @@ break;
 				//innerButton2.setType("web_url");
 				//innerButton2.setUrl("https://petersfancybrownhats.com");
 				//innerButton2.setTitle("View Website");
-				attachmentList.add(a);
+				//attachmentList.add(a);
 				//innerbuttonlist.add(innerButton2);
 				//payload.setTemplate_type("template");
 				//payload.setButtons(innerbuttonlist);
@@ -581,7 +581,7 @@ break;
 				//fb.setPlatform("API.AI");
 				//fb.setType("Chatbot");
 				//fb.setImageUrl("BOT");
-				fb.setAttachments(attachmentList);
+				fb.setAttachments(a);
 				fb.setText("Horray! Great success! :");
 				innerData.setFacebook(fb);
 				
