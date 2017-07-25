@@ -3,28 +3,31 @@ package config;
 import java.util.List;
 
 public class WebhookResponse {
-    private String speech;
+     private String speech;
     private String displayText;
     private List<ContextData> contextOut;
-    private InnerData data;
+    //private InnerData data;
+    private Facebook fb;
 
-    private final String source = "java-webhook";
-	
-	public WebhookResponse(String speech, String displayText, List<ContextData> contextOut) {
-        this.speech = speech;
-        this.displayText = displayText;
-	this.contextOut = contextOut;
-		
+    public Facebook getFb() {
+		return fb;
 	}
-	public WebhookResponse(String speech, String displayText, List<ContextData> contextOut, InnerData data) {
+
+	public void setFb(Facebook fb) {
+		this.fb = fb;
+	}
+
+	private final String source = "java-webhook";
+
+	public WebhookResponse(String speech, String displayText, List<ContextData> contextOut, Facebook fb) {
 		super();
 		this.speech = speech;
 		this.displayText = displayText;
 		this.contextOut = contextOut;
-		this.data = data;
-	}
+		this.fb = fb;
+	}		
 
-    public String getSpeech() {
+	public String getSpeech() {
         return speech;
     }
 
@@ -43,12 +46,14 @@ public class WebhookResponse {
 	public void setContextOut(List<ContextData> contextOut) {
 		this.contextOut = contextOut;
 	}
-	public InnerData getData() {
+	/*public InnerData getData() {
 		return data;
 	}
 
+
 	public void setData(InnerData data) {
 		this.data = data;
-	}
+	}*/
+	
 	
 }
