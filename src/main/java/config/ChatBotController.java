@@ -585,7 +585,7 @@ break;
 				fb.setText("Horray! Great success! :");
 				
 			}
-			}
+			
 			default : 
 				speech = "Thank you for contacting Max Life. Have a great day!";
 			}
