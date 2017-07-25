@@ -11,13 +11,17 @@ public class Facebook<Paylaod>
 	//private String imageUrl;
 	//private String payLoad;
 	//private List<InnerButton> buttons;
-	private List<Attachments> attachments;
-	public List<Attachments> getAttachments() {
+	private Attachments attachments;
+	public Facebook(Attachments attachments) {
+		super();
+		this.attachments = attachments;
+	}
+
+	public Attachments getAttachments() {
 		return attachments;
 	}
 
-
-	public void setAttachments(List<Attachments> attachments) {
+	public void setAttachments(Attachments attachments) {
 		this.attachments = attachments;
 	}
 
@@ -43,9 +47,9 @@ public class Facebook<Paylaod>
 	
 
 	//public Facebook(String type, String platform, String title, String imageUrl,  List<Paylaod> paylaod) {
-		public Facebook(List<Attachments> attachments, String text) {
+		public Facebook(String attachments, String text) {
 		super();
-		this.attachments = attachments;
+		
 		this.text = text;
 		//this.title = title;
 		//this.imageUrl = imageUrl;
