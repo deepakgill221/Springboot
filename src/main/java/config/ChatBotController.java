@@ -580,6 +580,7 @@ break;
 				fb.setType("Chatbot");
 				fb.setImageUrl("BOT");
 				innerData.setFacebook(fb);
+			}
 			default : 
 				speech = "Thank you for contacting Max Life. Have a great day!";
 			}
