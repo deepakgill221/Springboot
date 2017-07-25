@@ -9,6 +9,11 @@ public class WebhookResponse {
     private InnerData data;
 
     private final String source = "java-webhook";
+	
+	public WebhookResponse(String speech, String displayText, List<ContextData> contextOut) {
+        this.speech = speech;
+        this.displayText = displayText;
+	this.contextOut = contextOut;	
 
 	public WebhookResponse(String speech, String displayText, List<ContextData> contextOut, InnerData data) {
 		super();
