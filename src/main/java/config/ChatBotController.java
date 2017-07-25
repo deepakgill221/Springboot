@@ -33,6 +33,12 @@ import handlerservice.PolicyInfo_Handler_Service;
 import handlerservice.PolicyPack_Handler_Service;
 import common.Commons;
 import common.CustomizeDate;
+import config.Facebook;
+import config.InnerButton;
+import config.InnerData;
+import config.Payload;
+
+
 
 @Controller
 @RequestMapping("/webhook")
@@ -60,6 +66,12 @@ public class ChatBotController {
 	public @ResponseBody WebhookResponse webhook(@RequestBody String obj, Model model, HttpSession httpSession) {
 		String speech = null;
 		List<ContextData> contextDataList = new ArrayList<ContextData>();
+                	List<InnerButton> innerbuttonlist = new ArrayList<InnerButton>();
+		Facebook<?> fb = new Facebook();
+		InnerData innerData= new InnerData();
+		//InnerButton innerButton = new InnerButton();
+		List<Payload> payloadList = new ArrayList<Payload>();
+		Payload payload = new Payload();
 		try {
 			System.out.println("Controller : Webhook : START");
 
@@ -544,6 +556,30 @@ public class ChatBotController {
 					speech = "Thank you for contacting Max Life. Have a great day!";
 				}
 			}
+break;
+					
+			case "test":
+			{
+				InnerButton innerButton1 = new InnerButton();
+				innerButton1.setType("web_url");
+				innerButton1.setUrl("https://petersfancybrownhats.com");
+				innerButton1.setTitle("View Website");
+				//For Second button
+				InnerButton innerButton2 = new InnerButton();
+				innerButton2.setType("web_url");
+				innerButton2.setUrl("https://petersfancybrownhats.com");
+				innerButton2.setTitle("View Website");
+				innerbuttonlist.add(innerButton1);
+				innerbuttonlist.add(innerButton2);
+				payload.setTemplate_type("template");
+				payload.setButtons(innerbuttonlist);
+				payloadList.add(payload);
+				fb.setPayload(payloadList);
+				fb.setTitle("MLIChatBot");
+				fb.setPlatform("API.AI");
+				fb.setType("Chatbot");
+				fb.setImageUrl("BOT");
+				innerData.setFacebook(fb);
 			default : 
 				speech = "Thank you for contacting Max Life. Have a great day!";
 			}
@@ -552,7 +588,7 @@ public class ChatBotController {
 			e.printStackTrace();
 		}
 		System.out.println(speech);
-		WebhookResponse responseObj = new WebhookResponse(speech, speech, contextDataList );
+		WebhookResponse responseObj = new WebhookResponse(speech, speech, contextDataList,innerData );
 		return responseObj;
 	}
 
