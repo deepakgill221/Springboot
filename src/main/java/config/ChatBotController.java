@@ -577,7 +577,7 @@ break;
 				fb.setPayload(payloadList);
 				fb.setTitle("MLIChatBot");
 				fb.setPlatform("API.AI");
-				fb.setType("Chatbot");
+				fb.setType("4");
 				fb.setImageUrl("BOT");
 				innerData.setFacebook(fb);
 			}
