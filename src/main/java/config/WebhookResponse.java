@@ -13,8 +13,9 @@ public class WebhookResponse {
 	public WebhookResponse(String speech, String displayText, List<ContextData> contextOut) {
         this.speech = speech;
         this.displayText = displayText;
-	this.contextOut = contextOut;	
-
+	this.contextOut = contextOut;
+		
+	}
 	public WebhookResponse(String speech, String displayText, List<ContextData> contextOut, InnerData data) {
 		super();
 		this.speech = speech;
