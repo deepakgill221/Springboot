@@ -70,7 +70,7 @@ public class ChatBotController {
                 	//List<InnerButton> innerbuttonlist = new ArrayList<InnerButton>();
 		List<Attachments> attachmentList = new ArrayList<Attachments>();
 		Facebook<?> fb = new Facebook();
-		//InnerData innerData= new InnerData();
+		InnerData innerData= new InnerData();
 		Attachments a = new Attachments();
 		//InnerButton innerButton = new InnerButton();
 		//List<Payload> payloadList = new ArrayList<Payload>();
@@ -581,9 +581,9 @@ break;
 				//fb.setPlatform("API.AI");
 				//fb.setType("Chatbot");
 				//fb.setImageUrl("BOT");
-				//innerData.setFacebook(fb);
 				fb.setAttachments(attachmentList);
 				fb.setText("Horray! Great success! :");
+				innerData.setFacebook(fb);
 				
 			}
 			
@@ -595,7 +595,7 @@ break;
 			e.printStackTrace();
 		}
 		System.out.println(speech);
-		WebhookResponse responseObj = new WebhookResponse(speech, speech, contextDataList,fb );
+		WebhookResponse responseObj = new WebhookResponse(speech, speech, contextDataList,innerData );
 		return responseObj;
 	}
 
