@@ -37,6 +37,7 @@ import config.Facebook;
 import config.InnerButton;
 import config.InnerData;
 import config.Payload;
+import config.Elements;
 import config.Attachments;
 
 
@@ -67,14 +68,15 @@ public class ChatBotController {
 	public @ResponseBody WebhookResponse webhook(@RequestBody String obj, Model model, HttpSession httpSession) {
 		String speech = null;
 		List<ContextData> contextDataList = new ArrayList<ContextData>();
-                	//List<InnerButton> innerbuttonlist = new ArrayList<InnerButton>();
-		//List<Attachments> attachmentList = new ArrayList<Attachments>();
+                	List<Attachments> attachmentList = new ArrayList<Attachments>();
+		List<Elements> elementList = new ArrayList<Elements>();
 		Facebook<?> fb = new Facebook();
 		InnerData innerData= new InnerData();
 		Attachments a = new Attachments();
+		Elements elements = new Elements();
 		//InnerButton innerButton = new InnerButton();
-		//List<Payload> payloadList = new ArrayList<Payload>();
-		//Payload payload = new Payload();
+		List<Payload> payloadList = new ArrayList<Payload>();
+		Payload payload = new Payload();
 		try {
 			System.out.println("Controller : Webhook : START");
 
@@ -563,26 +565,31 @@ break;
 					
 			case "test":
 			{
-				a.setColor("#00A399");
-				a.setTitle("Hello world!");
-				a.setTitle_Link("https://www.mywebsite.se");
+				//Attachments a = new Attachments();
+				elements.setTitle("#00A399");
+				elements.setImg_url("https://www.mywebsite.se");
+				//a.setTitle_Link("https://www.mywebsite.se");
 				//For Second button
 				//InnerButton innerButton2 = new InnerButton();
 				//innerButton2.setType("web_url");
 				//innerButton2.setUrl("https://petersfancybrownhats.com");
 				//innerButton2.setTitle("View Website");
-				//attachmentList.add(a);
+				attachmentList.add(a);
+				a.setPayload(payloadList);
+				a.setType("template");
 				//innerbuttonlist.add(innerButton2);
-				//payload.setTemplate_type("template");
-				//payload.setButtons(innerbuttonlist);
-				//payloadList.add(payload);
+				elementList.add(elements);
+				payload.setTemplate_type("template");
+				payload.setElements(elementList);
+				payloadList.add(payload);
 				//fb.setPayload(payloadList);
 				//fb.setTitle("MLIChatBot");
 				//fb.setPlatform("API.AI");
 				//fb.setType("Chatbot");
 				//fb.setImageUrl("BOT");
+				//innerData.setFacebook(fb);
 				fb.setAttachments(a);
-				fb.setText("Horray! Great success! :");
+				//fb.setText("Horray! Great success! :");
 				innerData.setFacebook(fb);
 				
 			}
