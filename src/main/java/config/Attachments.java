@@ -1,6 +1,6 @@
 package config;
 
-import config.Payload
+import config.Payload;
 public class Attachments {
 
 	  String type;
