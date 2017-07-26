@@ -579,7 +579,7 @@ break;
 				a.setType("template");
 				//innerbuttonlist.add(innerButton2);
 				elementList.add(elements);
-				payload.setTemplate_type("template");
+				payload.setTemplate_type("4");
 				payload.setElements(elementList);
 				payloadList.add(payload);
 				//fb.setPayload(payloadList);
