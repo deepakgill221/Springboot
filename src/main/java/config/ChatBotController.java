@@ -576,7 +576,7 @@ break;
 				//innerButton2.setTitle("View Website");
 				attachmentList.add(a);
 				a.setPayload(payloadList);
-				a.setType(4);
+				a.setType("4");
 				//innerbuttonlist.add(innerButton2);
 				elementList.add(elements);
 				payload.setTemplate_type("template");
