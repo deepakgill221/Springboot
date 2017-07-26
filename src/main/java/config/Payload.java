@@ -1,6 +1,7 @@
 package config;
 
 import java.util.List;
+import config.Elements;
 
 public class Payload {
 
@@ -13,16 +14,24 @@ public class Payload {
 		this.template_type = template_type;
 	}
 
-	public List<InnerButton> getButtons() {
+	/*public List<InnerButton> getButtons() {
 		return buttons;
 	}
 
 	public void setButtons(List<InnerButton> buttons) {
 		this.buttons = buttons;
 	}
-
-	private List<InnerButton> buttons;
+*/
+	private List<Elements> elements;
 	
+	public List<Elements> getElements() {
+		return elements;
+	}
+
+	public void setElements(List<Elements> elements) {
+		this.elements = elements;
+	}
+
 	public Payload() {
 		super();
 		// TODO Auto-generated constructor stub
