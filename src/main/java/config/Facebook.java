@@ -10,8 +10,19 @@ public class Facebook<Paylaod>
 	//private String title;
 	//private String imageUrl;
 	//private String payLoad;
-	//private List<InnerButton> buttons;
 	private Attachments attachments;
+	//private List<InnerButton> buttons;
+	/*private List<Attachments> attachments;
+	public List<Attachments> getAttachments() {
+		return attachments;
+	}
+
+
+	public void setAttachments(List<Attachments> attachments) {
+		this.attachments = attachments;
+	}*/
+
+
 	public Facebook(Attachments attachments) {
 		super();
 		this.attachments = attachments;
@@ -25,18 +36,17 @@ public class Facebook<Paylaod>
 		this.attachments = attachments;
 	}
 
-
-	public String getText() {
+	/*public String getText() {
 		return text;
 	}
 
 
 	public void setText(String text) {
 		this.text = text;
-	}
+	}*/
 
 
-	private String text="";
+	//private String text="";
 	//private List<Payload> payload;
 	//private List<Payload> paylaod;
 	
@@ -47,10 +57,10 @@ public class Facebook<Paylaod>
 	
 
 	//public Facebook(String type, String platform, String title, String imageUrl,  List<Paylaod> paylaod) {
-		public Facebook(String attachments, String text) {
+		public Facebook( String attachments) {
 		super();
-		
-		this.text = text;
+		//this.attachments = attachments;
+		//this.text = text;
 		//this.title = title;
 		//this.imageUrl = imageUrl;
 		//this.paylaod = payload;
@@ -108,5 +118,6 @@ public class Facebook<Paylaod>
 	}*/
 
 }
+
 
 
