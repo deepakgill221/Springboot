@@ -1,43 +1,31 @@
 package config;
 
+import config.Payload
 public class Attachments {
 
-	  String color;
-	  String title;
-	  public String getColor() {
-		return color;
+	  String type;
+	  private List<Payload> payload;
+	  public String getType() {
+		return type;
 	}
-
-	public void setColor(String color) {
-		this.color = color;
+	public void setType(String type) {
+		this.type = type;
 	}
-
-	public String getTitle() {
-		return title;
+	public List<Payload> getPayload() {
+		return payload;
 	}
-
-	public void setTitle(String title) {
-		this.title = title;
+	public void setPayload(List<Payload> payload) {
+		this.payload = payload;
 	}
-
-	public String getTitle_Link() {
-		return title_Link;
-	}
-
-	public void setTitle_Link(String title_Link) {
-		this.title_Link = title_Link;
-	}
-
-	String title_Link;
-	  
-	  public Attachments(String color, String title, String title_Link) {
+	public Attachments(String color, String title, String title_Link) {
 			super();
-			this.color = color;
-			this.title = title;
-			this.title_Link = title_Link;
+			this.type = type;
+			this.payload = payload;
+			
 		}
 	  public Attachments() {
 			super();
 			// TODO Auto-generated constructor stub
 		}
 }
+
