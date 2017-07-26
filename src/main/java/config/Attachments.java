@@ -17,10 +17,10 @@ public class Attachments {
 	public void setPayload(List<Payload> payload) {
 		this.payload = payload;
 	}
-	public Attachments(String color, String title, String title_Link) {
+	public Attachments(String type, Payload payload) {
 			super();
 			this.type = type;
-			this.payload = payload;
+			//this.payload = payload;
 			
 		}
 	  public Attachments() {
