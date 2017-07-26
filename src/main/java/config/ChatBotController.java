@@ -589,7 +589,7 @@ break;
 				//fb.setImageUrl("BOT");
 				//innerData.setFacebook(fb);
 				fb.setAttachments(a);
-				//fb.setText("Horray! Great success! :");
+				fb.setspeech("Horray! Great success! :");
 				innerData.setFacebook(fb);
 				
 			}
