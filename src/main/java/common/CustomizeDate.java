@@ -27,31 +27,29 @@ public class CustomizeDate
 	public  String DateFormat(String converdate) throws Exception
 	{
 		String str1="1st April "; String str2="31 March "; String str3="till"; String month = "";
+		Date date = new Date();
 		int year = 0;
 		int finalYear = 0;
 		String responseDate = "";
 		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat myFormat2 = new SimpleDateFormat("dd-MMM-yyyy");
+		String currentDate=myFormat2.format(date);
 		Date date1 = myFormat.parse(converdate);
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date1);
 		year = cal.get(Calendar.YEAR);
 		month =cal.get(Calendar.MONTH)+"";
 
-
 		if("0".equalsIgnoreCase(month) || "1".equalsIgnoreCase(month) || "2".equalsIgnoreCase(month))
 		{
 			finalYear = year-1;
 			String addYear1=year+"";
 			responseDate=str1+finalYear+str3+str2+addYear1;
-			System.out.println(responseDate);
-
 		}
 		else
 		{
-			finalYear = year+1;
 			String addYear2=year+"";
-			responseDate=str1+addYear2+str3+str2+finalYear;
-			System.out.println(responseDate);
+			responseDate=str1+addYear2+str3+currentDate;
 		}
 		return responseDate;
 	}
