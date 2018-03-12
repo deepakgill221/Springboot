@@ -1,0 +1,16 @@
+
+Node
+http://uat-chatbot-web-elb-1020077933.ap-south-1.elb.amazonaws.com
+skill
+https://uat-chatbot-api-elb-413899380.ap-south-1.elb.amazonaws.com/rabot/webhook
+
+
+https://bot.maxlifeinsurance.com/empapp?key1=authorize_eapp_001&key2=abhom3089&key3=IOS&key4=eapp
+https://uat-csbot.herokuapp.com/webhook
+https://csbotdev.herokuapp.com/webhook
+gm.customer@sbi.co.in
+circle.replaceAll("\\s","");
+https://agentbotprod.herokuapp.com/webhook
+694001
+BPMA - ejblr2209 chennai circle
+RA - vbbby6030 -- Agent id 624313
