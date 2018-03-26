@@ -8,6 +8,7 @@ public class SpringController
 {
 	public String hello()
 	{
+		System.out.println("I am a controller");
 		return "Hello i am a controller";
 	}
 }
