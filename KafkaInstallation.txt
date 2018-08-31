@@ -1,0 +1,37 @@
+KafKa Installation 
+
+(1) This Kafka installation comes with an inbuilt zookeeper. 
+Zookeeper is mainly used to track status of nodes present in Kafka cluster and also to keep track of Kafka topics, messages, etc.
+Open a command prompt and start the Zookeeper-
+
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+
+(2)Open a new command prompt and start the Apache Kafka-
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+
+(3) Open a new command prompt and create a topic with name javainuse-topic, that has only one partition & one replica.
+.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic topicdemo
+
+   
+(4) Next Open a new command prompt and create a producer to send message to the above created topicdemo-topic 
+    and send a message 
+  .\bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic topicdemo
+
+(5) Finally Open a new command prompt and start the consumer which listens to the 
+    topic topicdemo 
+    we just created above. We will get the message we had sent using the producer
+
+  .\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic topicdemo --from-beginning
+
+
+Execute this command to see the list of all topics. 
+WINDOWS :-  .\bin\windows\kafka-topics.bat --list --zookeeper localhost:2181
+LINUX   :-  ./bin/kafka-topics.sh --list --zookeeper localhost:2181
+
+Execute this command to delete a topic.
+WINDOWS :-  .\bin\windows\kafka-topics.bat --zookeeper localhost:2181 --delete --topic demo 
+LINUX  :-   ./bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic demo 
+ 
+
